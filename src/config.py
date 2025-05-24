@@ -22,13 +22,10 @@ class Config:
     MAX_IMAGE_RESULTS: int = 1
     IMAGE_SEARCH_SAFE: str = "active"
 
-    # LLM Settings
-    MAX_TOKENS: int = 2000
-    TEMPERATURE: float = 0.3
 
     # Workflow Settings
     MAX_CONCEPTS_PER_REQUEST: int = 10
-    CONCEPT_CONFIDENCE_THRESHOLD: float = 0.6
+    CONCEPT_CONFIDENCE_THRESHOLD: float = 0.7
 
     # File Settings
     # ALLOWED_IMAGE_EXTENSIONS: set = {".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp"}

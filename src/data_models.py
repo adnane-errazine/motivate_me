@@ -15,9 +15,11 @@ class ApplicationData(TypedDict):
 class RoadmapData(TypedDict):
     id: str
     title: str
-    description: str
-    level: int  # Difficulty level (1-3)
-    estimated_time: str  # Estimated time to learn this concept
+    description_1: []
+    description_2: []
+    description_3: [] 
+    # description is a list of tuples, each tuple contains a description, estimated_time, and prerequisites
+
 
 
 class WorkflowState(TypedDict):

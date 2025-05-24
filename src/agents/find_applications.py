@@ -37,7 +37,7 @@ class AgentApplicationsFinder:
 
                 # Generate applications prompt
                 applications_prompt = f"""
-                    For the {domain} concept "{concept_name}", find 3-5 fascinating real-world applications that would excite and motivate learners.
+                    For the {domain} concept "{concept_name}", find 1-2 fascinating real-world applications that would excite and motivate learners, especially young learners.
 
                     Focus on:
                     - Modern technology applications (apps, devices, systems)
@@ -51,31 +51,32 @@ class AgentApplicationsFinder:
                     - Graph Theory → GPS navigation, social networks, supply chain optimization
 
                     For each application, provide:
-                    1. Name: Clear, recognizable name (company/product if applicable)
-                    2. Description: How the concept is used (2-3 sentences)
-                    3. Impact: Why this application matters
-                    4. Visual_keywords: 3-4 keywords for image search
-                    5. Wow_factor: What makes this application impressive/surprising
-
+                    1. name: Clear, recognizable name (company/product if applicable)
+                    2. brief_description: 1 sentence summary of what it does (e.g. "Shazam identifies songs from short audio clips") will be used to query Google Images
+                    3. description: Extended description of how this application uses the concept, its significance, wow factor and any interesting details, wow 
+                    
                     Return as JSON array.
                     """
                 # Prepare messages for Mistral chat
                 messages = [
                     {"role": "system",
-                     "content": "You are an expert at connecting abstract mathematical/scientific concepts to exciting real-world applications that inspire learning."},
+                     "content": "You are an expert at connecting abstract mathematical/scientific/linguistic concepts to exciting real-world applications that inspire learning."},
                     {"role": "user", "content": applications_prompt}
                 ]
 
                 response = self.mistral_client.chat.complete(
                     model=config.MISTRAL_MODEL,
                     messages=messages,
-                    max_tokens=2000,
+                    #max_tokens=2000,
+                    response_format={
+                    "type": "json_object"
+                    },
                     # temperature=0.4
                 )
-
+                # Parse the response
                 try:
                     raw_response = response.choices[0].message.content
-                    applications = json.loads(raw_response.replace("```json", "").replace("`", ""))
+                    applications = json.loads(raw_response)
                     if not isinstance(applications, list):
                         applications = [applications]
                     for application in applications:
@@ -94,7 +95,7 @@ class AgentApplicationsFinder:
                 logger.info(f"Found {len(applications)} applications for {concept_name}")
 
                 # Small delay to respect rate limits
-                await asyncio.sleep(0.1)
+                await asyncio.sleep(0.05)
 
             state["concept_applications"] = concept_applications
 
@@ -106,23 +107,22 @@ class AgentApplicationsFinder:
 
         return state
 
-    async def run(self, state: WorkflowState) -> WorkflowState:
-        """Run the agent to find applications for significant concepts"""
-        logger.info("Running FindApplications agent")
 
-        # Ensure we have significant concepts to work with
-        if not state.get("relevant_concepts"):
-            logger.warning("No significant concepts found, skipping application search")
-            return state
+if __name__ == "__main__":
+    # Example usage
+    state = WorkflowState(
+        uuid="example-uuid",
+        document_path="example/path/to/document",
+        text_input="Example input text",
+        user_metadata={},
+        relevant_concepts=[
+            {"name": "Fourier Transform", "domain": "Mathematics"},
+            {"name": "Machine Learning", "domain": "Computer Science"}
+        ],
+        concept_applications={},
+        error=None
+    )
 
-        # Run the application finding node
-        state = await self.find_applications_node(state)
-
-        # Encode images for each application
-        if "concept_applications" in state:
-            for concept, applications in state["concept_applications"].items():
-                for app in applications:
-                    if "image_path" in app:
-                        app["image_data"] = encode_image(app["image_path"])
-
-        return state
+    finder = AgentApplicationsFinder()
+    asyncio.run(finder.find_applications_node(state))
+    print(json.dumps(state, indent=2))

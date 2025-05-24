@@ -100,7 +100,6 @@ class AgentConceptsExtractor:
 
             # Parse response
             concepts_text = response.choices[0].message.content
-            print(f"Response from Mistral: ---->{concepts_text}")
             try:
                 concepts = json.loads(concepts_text)
                 if not isinstance(concepts, list):
@@ -131,10 +130,6 @@ class AgentConceptsExtractor:
             state["error"] = str(e)
 
         return state
-
-    async def run(self, state: WorkflowState) -> WorkflowState:
-        """Run the agent to extract significant concepts"""
-        return await self.extract_relevant_concepts_node(state)
 
 
 def encode_image(image_path: str) -> str:
