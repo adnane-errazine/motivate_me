@@ -12,7 +12,7 @@ class Config:
 
     # Mistral API Configuration
     MISTRAL_API_KEY: str = os.getenv("MISTRAL_API_KEY", "")
-    MISTRAL_MODEL: str = "mistral-small-latest"  # "mistral-small-latest"
+    MISTRAL_MODEL: str = "mistral-small-latest" #"mistral-medium-latest"  # "mistral-small-latest"
 
     # Google Custom Search Configuration
     GOOGLE_API_KEY: str = os.getenv("GOOGLE_API_KEY", "")

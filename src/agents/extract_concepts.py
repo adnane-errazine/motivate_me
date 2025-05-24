@@ -1,7 +1,8 @@
 import json
 import logging
 import base64
-
+import os
+from pdf2image import convert_from_path
 from src.config import config
 
 from mistralai import Mistral
@@ -17,7 +18,9 @@ class AgentConceptsExtractor:
     def __init__(self):
         self.mistral_client = Mistral(api_key=config.MISTRAL_API_KEY)
 
-    async def extract_relevant_concepts_node(self, state: WorkflowState) -> WorkflowState:
+    async def extract_relevant_concepts_node(
+        self, state: WorkflowState
+    ) -> WorkflowState:
         """Extract only significant mathematical/scientific concepts, filtering out basic elements"""
         try:
             logger.info("Extracting relevant concepts")
@@ -40,48 +43,64 @@ class AgentConceptsExtractor:
             - Engineering methods (Signal processing, Control theory, etc.)
 
             For each significant concept, provide:
-            1. Name: The official name of the theorem/concept/phenomenon
-            2. Type: (theorem, principle, method, phenomenon, etc.)
-            3. Domain: (mathematics, physics, engineering, computer science, etc.)
-            4. Significance: Why this concept is important and powerful
-            5. Mathematical_basis: Core mathematical foundation
-            6. Confidence: Your confidence this is correctly identified (0.0-1.0)
+            1. name: The official name of the theorem/concept/phenomenon
+            2. type: (theorem, principle, method, phenomenon, etc.)
+            3. domain: (mathematics, physics, engineering, computer science, etc.)
+            4. significance: Why this concept is important and powerful
+            5. confidence: Your confidence this is correctly identified (0.0-1.0)
 
             Return a JSON array with only the most significant 2-4 concepts. Quality over quantity."""
 
-            # Encode image
-            image_data = encode_image(state["document_path"])
+            # Create a directory for the current workflow
+            output_dir = create_uuid_directory(state["uuid"])
+
+            # Convert the PDF to images and save them in the output directory
+            image_files = convert_pdf_to_images(state["document_path"], output_dir)
 
             # Prepare user message
             user_content = f"""Analyze this lecture material for significant mathematical/scientific concepts.
 
-                            Additional context: {state['text_input']}
-                            User background: {json.dumps(state['user_metadata'])}
+            Additional context: {state["text_input"]}
+            User background: {json.dumps(state["user_metadata"])}
 
-                            Focus on identifying theorems, principles, or phenomena that have real-world applications."""
+            Focus on identifying theorems, principles, or phenomena that have real-world applications."""
 
+            # Initialize messages with the system prompt
             messages = [
                 {"role": "system", "content": system_prompt},
                 {
                     "role": "user",
-                    "content": [
-                        {"type": "text", "text": user_content},
-                        {
-                            "type": "image_url",
-                            "image_url": {"url": f"data:image/jpeg;base64,{image_data}"},
-                        },
-                    ],
+                    "content": [{"type": "text", "text": user_content}],
                 },
             ]
-            response = await self.mistral_client.chat.complete(
+
+            # Encode and append each image
+            for counter,image_path in enumerate(image_files):
+                image_base64 = encode_image(image_path)
+                messages[1]["content"].append(
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": f"data:image/jpeg;base64,{image_base64}"},
+                    }
+                )
+                if counter >= 5:
+                    logger.info("Limiting to 6 images for performance")
+                    break
+
+            response = self.mistral_client.chat.complete(
                 model=config.MISTRAL_MODEL,
                 messages=messages,
-                max_tokens=1500,
-                temperature=0.2,
+                response_format={
+                    "type": "json_object"
+                },
+                    
+                #max_tokens=1500,
+                #temperature=0.2,
             )
 
             # Parse response
             concepts_text = response.choices[0].message.content
+            print(f"Response from Mistral: ---->{concepts_text}")
             try:
                 concepts = json.loads(concepts_text)
                 if not isinstance(concepts, list):
@@ -98,12 +117,9 @@ class AgentConceptsExtractor:
 
             # Filter by confidence and limit to most significant
             relevant_concepts = [
-                                       c
-                                       for c in concepts
-                                       if c.get("confidence", 0) >= 0.7  # Higher threshold for significance
-                                   ][
-                                   :4
-                                   ]  # Max 4 significant concepts
+                c for c in concepts
+                if c.get("confidence", 0) >= 0.7  # Higher threshold for significance
+            ][:10]  # Max 4 significant concepts
 
             state["relevant_concepts"] = relevant_concepts
             logger.info(
@@ -127,6 +143,31 @@ def encode_image(image_path: str) -> str:
         return base64.b64encode(image_file.read()).decode("utf-8")
 
 
+def create_uuid_directory(uuid: str) -> str:
+    """
+    Create a directory named after the UUID inside the 'tmp' folder.
+    Returns the path to the created directory.
+    """
+    directory_path = os.path.join("tmp", uuid)
+    os.makedirs(directory_path, exist_ok=True)
+    return directory_path
+
+
+def convert_pdf_to_images(pdf_path: str, output_folder: str) -> list:
+    """
+    Convert each page of the PDF to an image and save them in the output folder.
+    Returns a list of image file paths.
+    """
+    images = convert_from_path(pdf_path, dpi=300)
+    image_paths = []
+    for i, image in enumerate(images):
+        image_filename = f"page_{i + 1}.jpg"
+        image_path = os.path.join(output_folder, image_filename)
+        image.save(image_path, "JPEG")
+        image_paths.append(image_path)
+    return image_paths
+
+
 if __name__ == "__main__":
     import asyncio
 
@@ -135,6 +176,7 @@ if __name__ == "__main__":
     # python -m src.agents.extract_concepts
     # Example usage
     state = WorkflowState(
+        uuid="test-uuid-1234",
         document_path="tmp/lecture8-fouriertransforms.pdf",
         text_input="This lecture covers advanced topics in signal processing.",
         user_metadata={"background": "First year engineering student"},

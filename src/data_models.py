@@ -22,7 +22,7 @@ class RoadmapData(TypedDict):
 
 class WorkflowState(TypedDict):
     """State structure for the LangGraph workflow"""
-
+    uuid: str  # Unique identifier for the workflow instance
     document_path: str
     text_input: str
     user_metadata: Dict[str, Any]
