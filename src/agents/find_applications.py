@@ -73,7 +73,7 @@ class AgentApplicationsFinder:
                     max_tokens=2000,
                     #temperature=0.4
                 )
-
+                
                 try:
                     applications = json.loads(response.choices[0].message.content)
                     if not isinstance(applications, list):
@@ -95,6 +95,8 @@ class AgentApplicationsFinder:
                 await asyncio.sleep(0.1)
 
             state["concept_applications"] = concept_applications
+            _search_google_images
+            
             logger.info(f"Found applications for {len(concept_applications)} concepts")
 
         except Exception as e:
@@ -139,9 +141,6 @@ if __name__ == "__main__":
             {"name": "Fourier Transform", "domain": "Signal Processing"}
         ],
         concept_applications={},
-        application_images={},
-        combined_content=[],
-        final_output={},
         error=None
     )
 

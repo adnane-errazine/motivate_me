@@ -140,9 +140,6 @@ if __name__ == "__main__":
         user_metadata={"background": "First year engineering student"},
         significant_concepts=[],
         concept_applications={},
-        application_images={},
-        combined_content=[],
-        final_output={},
         error=None,
     )
 
