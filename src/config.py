@@ -12,14 +12,14 @@ class Config:
 
     # Mistral API Configuration
     MISTRAL_API_KEY: str = os.getenv("MISTRAL_API_KEY", "")
-    MISTRAL_MODEL: str = "mistral-medium-latest"  # "mistral-small-latest"
+    MISTRAL_MODEL: str = "mistral-small-latest"  # "mistral-small-latest"
 
     # Google Custom Search Configuration
     GOOGLE_API_KEY: str = os.getenv("GOOGLE_API_KEY", "")
     GOOGLE_CSE_ID: str = os.getenv("GOOGLE_CSE_ID", "")
 
     # Image Search Settings
-    MAX_IMAGE_RESULTS: int = 2
+    MAX_IMAGE_RESULTS: int = 1
     IMAGE_SEARCH_SAFE: str = "active"
 
     # LLM Settings

@@ -1,4 +1,5 @@
 import asyncio
+import json
 
 from src.agents.find_applications import AgentApplicationsFinder
 from src.data_models import WorkflowState
@@ -28,4 +29,4 @@ if __name__ == "__main__":
 
     agent = AgentApplicationsFinder()
     asyncio.run(agent.run(state))
-    print(state)
+    print(json.dumps(state, indent=2))

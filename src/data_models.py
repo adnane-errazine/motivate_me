@@ -5,7 +5,7 @@ class ApplicationData(TypedDict):
     concept_name: str  # Name of the concept this application relates to
     name: str
     brief_description: str
-    image_urls: List[str]  # URLs of images related to the application
+    images: List[Dict[str, Any]]  # List of image data, including URL
     description: str  # Detailed description of the application
     RoadmapData: Optional[
         List["RoadmapData"]

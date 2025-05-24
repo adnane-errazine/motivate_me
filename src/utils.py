@@ -1,16 +1,26 @@
-import httpx
 import logging
-from typing import Dict, List, Any, Optional, TypedDict
+from typing import Dict, List, Any
+
+import httpx
+
 from src.config import config
 
 logger = logging.getLogger(__name__)
 
 
-
-
-
-async def _search_google_images(query: str) -> List[Dict[str, Any]]:
+async def search_google_images(query: str) -> List[Dict[str, Any]]:
     """Search for images using Google Custom Search API"""
+    # TODO: Change this before demo
+    # TODO: This is only for development purposes
+    return [{
+        "url": "https://mriquestions.com/uploads/3/4/5/7/34572113/9600204_orig.gif",
+        "title": "Fourier Transform (FT) - Questions and Answers in MRI",
+        "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx4ju1Vn2qlWb3xLNM4mbDrG2TIhMR0CfS_AF-suLC6NCg0acuqn3NVg&s",
+        "context": "Fourier Transform (FT) - Questions and Answers in MRI",
+        "width": 708,
+        "height": 570
+    }]
+
     try:
         url = "https://www.googleapis.com/customsearch/v1"
         params = {

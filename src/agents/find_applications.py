@@ -6,9 +6,8 @@ from src.config import config
 
 from mistralai import Mistral
 
-from src.data_models import WorkflowState
-from src.utils import _search_google_images
-
+from src.data_models import WorkflowState, ApplicationData
+from src.utils import search_google_images
 
 logger = logging.getLogger(__name__)
 
@@ -71,13 +70,16 @@ class AgentApplicationsFinder:
                     model=config.MISTRAL_MODEL,
                     messages=messages,
                     max_tokens=2000,
-                    #temperature=0.4
+                    # temperature=0.4
                 )
-                
+
                 try:
-                    applications = json.loads(response.choices[0].message.content)
+                    raw_response = response.choices[0].message.content
+                    applications = json.loads(raw_response.replace("```json", "").replace("`", ""))
                     if not isinstance(applications, list):
                         applications = [applications]
+                    for application in applications:
+                        application["images"] = await search_google_images(concept_name)
                 except json.JSONDecodeError:
                     # Fallback parsing
                     import re
@@ -95,8 +97,7 @@ class AgentApplicationsFinder:
                 await asyncio.sleep(0.1)
 
             state["concept_applications"] = concept_applications
-            _search_google_images
-            
+
             logger.info(f"Found applications for {len(concept_applications)} concepts")
 
         except Exception as e:
@@ -125,25 +126,3 @@ class AgentApplicationsFinder:
                         app["image_data"] = encode_image(app["image_path"])
 
         return state
-
-
-if __name__ == "__main__":
-    # Example usage
-    # RUN :
-    # .\.venv\Scripts\activate.bat
-    # python -m src.agents.find_applications
-
-    state = WorkflowState(
-        document_path="",
-        text_input="",
-        user_metadata={},
-        relevant_concepts=[
-            {"name": "Fourier Transform", "domain": "Signal Processing"}
-        ],
-        concept_applications={},
-        error=None
-    )
-
-    agent = AgentApplicationsFinder()
-    asyncio.run(agent.run(state))
-    print(state)
