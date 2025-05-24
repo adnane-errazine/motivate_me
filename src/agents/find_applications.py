@@ -65,7 +65,7 @@ class AgentApplicationsFinder:
                     {"role": "user", "content": applications_prompt}
                 ]
 
-                response = await self.mistral_client.chat.complete(
+                response = self.mistral_client.chat.complete(
                     model=config.MISTRAL_MODEL,
                     messages=messages,
                     max_tokens=1200,
@@ -118,7 +118,7 @@ class AgentApplicationsFinder:
             for concept, applications in state["concept_applications"].items():
                 for app in applications:
                     if "image_path" in app:
-                        app["image_data"] = encode_image(self, app["image_path"])
+                        app["image_data"] = encode_image(app["image_path"])
 
         return state
 
