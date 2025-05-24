@@ -22,9 +22,7 @@ if __name__ == "__main__":
             {"name": "Fourier Transform", "domain": "Signal Processing"}
         ],
         concept_applications={},
-        application_images={},
-        combined_content=[],
-        final_output={},
+
         error=None
     )
 

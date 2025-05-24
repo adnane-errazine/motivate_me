@@ -1,15 +1,34 @@
 from typing import Dict, List, Any, Optional, TypedDict
 
 
+class ApplicationData(TypedDict):
+    concept_name: str  # Name of the concept this application relates to
+    name: str
+    brief_description: str
+    image_urls: List[str]  # URLs of images related to the application
+    description: str  # Detailed description of the application
+    RoadmapData: Optional[
+        List["RoadmapData"]
+    ]  # Optional roadmap data for learning this application
+
+
+class RoadmapData(TypedDict):
+    id: str
+    title: str
+    description: str
+    level: int  # Difficulty level (1-3)
+    estimated_time: str  # Estimated time to learn this concept
+
+
 class WorkflowState(TypedDict):
     """State structure for the LangGraph workflow"""
 
-    image_path: str
+    document_path: str
     text_input: str
     user_metadata: Dict[str, Any]
-    significant_concepts: List[Dict[str, Any]]  # Major theorems/phenomena only
-    concept_applications: Dict[str, List[Dict[str, Any]]]  # Real-world applications
-    application_images: Dict[str, List[Dict[str, Any]]]  # Images for each application
-    combined_content: List[Dict[str, Any]]  # Final rich content combining everything
-    final_output: Dict[str, Any]
+    relevant_concepts: List[Dict[str, Any]]  # Major theorems/phenomena only
+    concept_applications: Dict[
+        str, List[ApplicationData]
+    ]  # Key: concept name, Value: list of applications
+
     error: Optional[str]

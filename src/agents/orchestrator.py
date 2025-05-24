@@ -10,7 +10,7 @@ from langgraph.checkpoint.memory import MemorySaver
 from src.config import config
 from src.data_models import WorkflowState
 
-from src.utils import _search_google_images
+
 from src.agents.extract_concepts import AgentConceptsExtractor
 from src.agents.find_applications import AgentApplicationsFinder
 
@@ -25,6 +25,7 @@ class Orchestrator:
     def __init__(self):
         _agent_concept_extractor = AgentConceptsExtractor()
         _agent_applications_finder = AgentApplicationsFinder()
+        _
         """Initialize the Orchestrator with the agents and workflow"""
 
         self.workflow = self._build_workflow()
@@ -38,9 +39,12 @@ class Orchestrator:
         # Add nodes
         workflow.add_node("extract_relevant_concepts", self._agent_concept_extractor.extract_relevant_concepts_node)
         workflow.add_node("find_applications", self._agent_applications_finder.find_applications_node)
-        workflow.add_node("end", END)
+        #workflow.add_node("search_application_images", _search_google_images)
+        #workflow.add_node("combine_content", self._combine_content_node)
 
         # Add edges
+        
+        
 
     def _agent_concepts_extractor(self):
         """Create an instance of the concepts extractor agent"""

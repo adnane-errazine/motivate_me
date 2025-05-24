@@ -7,6 +7,8 @@ from src.config import config
 from mistralai import Mistral
 
 from src.data_models import WorkflowState
+from src.utils import _search_google_images
+
 
 logger = logging.getLogger(__name__)
 
@@ -68,8 +70,8 @@ class AgentApplicationsFinder:
                 response = self.mistral_client.chat.complete(
                     model=config.MISTRAL_MODEL,
                     messages=messages,
-                    max_tokens=1200,
-                    temperature=0.4
+                    max_tokens=2000,
+                    #temperature=0.4
                 )
 
                 try:
