@@ -11,14 +11,13 @@ from src.data_models import WorkflowState
 logger = logging.getLogger(__name__)
 
 
-class Agent_concepts_extractor:
+class AgentConceptsExtractor:
     """Agent to extract significant mathematical/scientific concepts from lecture material"""
 
     def __init__(self):
         self.mistral_client = Mistral(api_key=config.MISTRAL_API_KEY)
 
-
-    async def _extract_relevant_concepts_node(self, state: WorkflowState) -> WorkflowState:
+    async def extract_relevant_concepts_node(self, state: WorkflowState) -> WorkflowState:
         """Extract only significant mathematical/scientific concepts, filtering out basic elements"""
         try:
             logger.info("Extracting relevant concepts")
@@ -81,7 +80,6 @@ class Agent_concepts_extractor:
                 temperature=0.2,
             )
 
-
             # Parse response
             concepts_text = response.choices[0].message.content
             try:
@@ -100,12 +98,12 @@ class Agent_concepts_extractor:
 
             # Filter by confidence and limit to most significant
             significant_concepts = [
-                c
-                for c in concepts
-                if c.get("confidence", 0) >= 0.7  # Higher threshold for significance
-            ][
-                :4
-            ]  # Max 4 significant concepts
+                                       c
+                                       for c in concepts
+                                       if c.get("confidence", 0) >= 0.7  # Higher threshold for significance
+                                   ][
+                                   :4
+                                   ]  # Max 4 significant concepts
 
             state["significant_concepts"] = significant_concepts
             logger.info(
@@ -120,7 +118,7 @@ class Agent_concepts_extractor:
 
     async def run(self, state: WorkflowState) -> WorkflowState:
         """Run the agent to extract significant concepts"""
-        return await self._extract_relevant_concepts_node(state)
+        return await self.extract_relevant_concepts_node(state)
 
 
 def encode_image(image_path: str) -> str:
@@ -129,11 +127,10 @@ def encode_image(image_path: str) -> str:
         return base64.b64encode(image_file.read()).decode("utf-8")
 
 
-
-
 if __name__ == "__main__":
     import asyncio
-    # RUN : 
+
+    # RUN :
     # .\.venv\Scripts\activate.bat
     # python -m src.agents.extract_concepts
     # Example usage
@@ -149,6 +146,6 @@ if __name__ == "__main__":
         error=None,
     )
 
-    agent = Agent_concepts_extractor()
+    agent = AgentConceptsExtractor()
     result_state = asyncio.run(agent.run(state))
     print(json.dumps(result_state, indent=2))

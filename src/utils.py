@@ -6,8 +6,6 @@ from src.config import config
 logger = logging.getLogger(__name__)
 
 
-
-
 class WorkflowState(TypedDict):
     """State structure for the LangGraph workflow"""
 
@@ -20,7 +18,6 @@ class WorkflowState(TypedDict):
     combined_content: List[Dict[str, Any]]  # Final rich content combining everything
     final_output: Dict[str, Any]
     error: Optional[str]
-
 
 
 async def _search_google_images(query: str) -> List[Dict[str, Any]]:

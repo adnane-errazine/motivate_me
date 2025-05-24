@@ -1,5 +1,6 @@
 from typing import Dict, List, Any, Optional, TypedDict
 
+
 class WorkflowState(TypedDict):
     """State structure for the LangGraph workflow"""
 

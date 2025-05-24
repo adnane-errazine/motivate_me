@@ -4,48 +4,43 @@ import logging
 from typing import Dict, List, Any, Optional, TypedDict
 from pathlib import Path
 
-
 from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
-
 
 from src.config import config
 from src.data_models import WorkflowState
 
 from src.utils import _search_google_images
-from src.agents.extract_concepts import Agent_concepts_extractor
-from src.agents.find_applications import Agent_applications_finder
+from src.agents.extract_concepts import AgentConceptsExtractor
+from src.agents.find_applications import AgentApplicationsFinder
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-
-
-
 class Orchestrator:
     """Orchestrator class to manage the LangGraph workflow"""
 
     def __init__(self):
-        _agent_concept_extractor = Agent_concepts_extractor()
-        _agent_applications_finder = Agent_applications_finder()
+        _agent_concept_extractor = AgentConceptsExtractor()
+        _agent_applications_finder = AgentApplicationsFinder()
         """Initialize the Orchestrator with the agents and workflow"""
-        
-        
+
         self.workflow = self._build_workflow()
+        self._agent_applications_finder = AgentApplicationsFinder()
+        self._agent_concept_extractor = AgentConceptsExtractor()
+
     def _build_workflow(self) -> StateGraph:
         """Build the LangGraph workflow"""
         workflow = StateGraph(WorkflowState)
 
         # Add nodes
-        workflow.add_node("extract_relevant_concepts", self._agent_concept_extractor._extract_relevant_concepts_node)
-        workflow.add_node("find_applications", self._agent_applications_finder._find_applications_node)
+        workflow.add_node("extract_relevant_concepts", self._agent_concept_extractor.extract_relevant_concepts_node)
+        workflow.add_node("find_applications", self._agent_applications_finder.find_applications_node)
         workflow.add_node("end", END)
-        
+
         # Add edges
-    
-    def _agent_concepts_extractor(self) -> :
+
+    def _agent_concepts_extractor(self):
         """Create an instance of the concepts extractor agent"""
-        
-        
