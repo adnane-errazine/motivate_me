@@ -10,4 +10,5 @@ dependencies = [
     "langchain>=0.3.25",
     "langchain-mistralai>=0.2.10",
     "langgraph>=0.4.7",
+    "mistralai>=1.7.1",
 ]
