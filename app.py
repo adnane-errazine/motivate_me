@@ -15,10 +15,10 @@ if __name__ == "__main__":
     # python app.py
 
     state = WorkflowState(
-        image_path="",
+        document_path="",
         text_input="",
         user_metadata={},
-        significant_concepts=[
+        relevant_concepts=[
             {"name": "Fourier Transform", "domain": "Signal Processing"}
         ],
         concept_applications={},

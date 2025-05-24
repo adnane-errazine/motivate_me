@@ -50,7 +50,7 @@ class AgentConceptsExtractor:
             Return a JSON array with only the most significant 2-4 concepts. Quality over quantity."""
 
             # Encode image
-            image_data = encode_image(state["image_path"])
+            image_data = encode_image(state["document_path"])
 
             # Prepare user message
             user_content = f"""Analyze this lecture material for significant mathematical/scientific concepts.
@@ -97,7 +97,7 @@ class AgentConceptsExtractor:
                     raise ValueError("Could not parse concepts JSON")
 
             # Filter by confidence and limit to most significant
-            significant_concepts = [
+            relevant_concepts = [
                                        c
                                        for c in concepts
                                        if c.get("confidence", 0) >= 0.7  # Higher threshold for significance
@@ -105,9 +105,9 @@ class AgentConceptsExtractor:
                                    :4
                                    ]  # Max 4 significant concepts
 
-            state["significant_concepts"] = significant_concepts
+            state["relevant_concepts"] = relevant_concepts
             logger.info(
-                f"Extracted {len(significant_concepts)} significant concepts: {[c['name'] for c in significant_concepts]}"
+                f"Extracted {len(relevant_concepts)} significant concepts: {[c['name'] for c in relevant_concepts]}"
             )
 
         except Exception as e:
@@ -135,10 +135,10 @@ if __name__ == "__main__":
     # python -m src.agents.extract_concepts
     # Example usage
     state = WorkflowState(
-        image_path="tmp/lecture8-fouriertransforms.pdf",
+        document_path="tmp/lecture8-fouriertransforms.pdf",
         text_input="This lecture covers advanced topics in signal processing.",
         user_metadata={"background": "First year engineering student"},
-        significant_concepts=[],
+        relevant_concepts=[],
         concept_applications={},
         error=None,
     )

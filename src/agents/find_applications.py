@@ -32,7 +32,7 @@ class AgentApplicationsFinder:
 
             concept_applications = {}
 
-            for concept in state["significant_concepts"]:
+            for concept in state["relevant_concepts"]:
                 concept_name = concept["name"]
                 domain = concept.get("domain", "")
 
@@ -110,7 +110,7 @@ class AgentApplicationsFinder:
         logger.info("Running FindApplications agent")
 
         # Ensure we have significant concepts to work with
-        if not state.get("significant_concepts"):
+        if not state.get("relevant_concepts"):
             logger.warning("No significant concepts found, skipping application search")
             return state
 
@@ -134,10 +134,10 @@ if __name__ == "__main__":
     # python -m src.agents.find_applications
 
     state = WorkflowState(
-        image_path="",
+        document_path="",
         text_input="",
         user_metadata={},
-        significant_concepts=[
+        relevant_concepts=[
             {"name": "Fourier Transform", "domain": "Signal Processing"}
         ],
         concept_applications={},
