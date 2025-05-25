@@ -47,7 +47,28 @@ async def run_workflow(request: WorkflowRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@router.get("/get_workflow_state/")
+async def get_workflow_state():
+    """ Endpoint to retrieve the tmp/workflow_state.json file."""
+    try:
+        workflow_state_path = os.path.join("tmp", "workflow_state.json")
 
+        if not os.path.exists(workflow_state_path):
+            return {
+                "status": "not_found",
+                "message": f"Workflow state file not found: {workflow_state_path}"
+            }
+
+        with open(workflow_state_path, "r") as file:
+            workflow_state = json.load(file)
+
+        return {
+            "status": "success",
+            "data": workflow_state
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     import asyncio
