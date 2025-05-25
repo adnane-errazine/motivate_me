@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+""" Data models for LangGraph workflow with agents (includes state model)
+data_models.py
+"""
+
 from typing import Dict, List, Any, Optional, TypedDict
 
 
@@ -13,12 +18,12 @@ class ApplicationData(TypedDict):
 
 
 class RoadmapData(TypedDict):
-    id: str
+    application: str
     title: str
     description_1: []
     description_2: []
     description_3: [] 
-    # description is a list of tuples, each tuple contains a description, estimated_time, and prerequisites
+    # description is a list of tuples, each tuple contains a description, estimated_time, and prerequisites, we would excpect the most prominent concepts to be listed. 
 
 
 
@@ -27,7 +32,7 @@ class WorkflowState(TypedDict):
     uuid: str  # Unique identifier for the workflow instance
     document_path: str
     text_input: str
-    user_metadata: Dict[str, Any]
+    user_metadata: Dict[str, Any]  # interests, career goals, education_level, backgroundn, hobbies.
     relevant_concepts: List[Dict[str, Any]]  # Major theorems/phenomena only
     concept_applications: Dict[
         str, List[ApplicationData]

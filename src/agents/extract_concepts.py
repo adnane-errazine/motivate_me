@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+"""Agent to extract significant  concepts from lecture material.
+extract_concepts.py
+"""
+
 import json
 import logging
 import base64
@@ -54,8 +59,17 @@ class AgentConceptsExtractor:
             # Create a directory for the current workflow
             output_dir = create_uuid_directory(state["uuid"])
 
+            # if  state["document_path"].endswith(".pdf"):
             # Convert the PDF to images and save them in the output directory
-            image_files = convert_pdf_to_images(state["document_path"], output_dir)
+            # image_files = convert_pdf_to_images(state["document_path"], output_dir)
+            #    pass
+            if (
+                state["document_path"].endswith(".jpg")
+                or state["document_path"].endswith(".jpeg")
+                or state["document_path"].endswith(".png")
+            ):
+                # If it's an image, we can directly use it
+                image_files = [state["document_path"]]
 
             # Prepare user message
             user_content = f"""Analyze this lecture material for significant mathematical/scientific concepts.
@@ -74,28 +88,50 @@ class AgentConceptsExtractor:
                 },
             ]
 
-            # Encode and append each image
-            for counter,image_path in enumerate(image_files):
-                image_base64 = encode_image(image_path)
+            if state["document_path"].endswith(".pdf"):
+                uploaded_pdf = self.mistral_client.files.upload(
+                    file={
+                        "file_name": state["document_path"],
+                        "content": open(state["document_path"], "rb"),
+                    },
+                    purpose="ocr",
+                )
+                signed_url = self.mistral_client.files.get_signed_url(
+                    file_id=uploaded_pdf.id
+                )
                 messages[1]["content"].append(
                     {
-                        "type": "image_url",
-                        "image_url": {"url": f"data:image/jpeg;base64,{image_base64}"},
+                        "type": "document_url",
+                        "document_url": signed_url.url,
                     }
                 )
-                if counter >= 5:
-                    logger.info("Limiting to 6 images for performance")
-                    break
+
+            if (
+                state["document_path"].endswith(".jpg")
+                or state["document_path"].endswith(".jpeg")
+                or state["document_path"].endswith(".png")
+            ):
+                # Encode and append each image
+                for counter, image_path in enumerate(image_files):
+                    image_base64 = encode_image(image_path)
+                    messages[1]["content"].append(
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": f"data:image/jpeg;base64,{image_base64}"
+                            },
+                        }
+                    )
+                    if counter >= 6:
+                        logger.info("Limiting to 6 images for performance")
+                        break
 
             response = self.mistral_client.chat.complete(
-                model=config.MISTRAL_MODEL,
+                model=config.MISTRAL_MODEL_VISION,
                 messages=messages,
-                response_format={
-                    "type": "json_object"
-                },
-                    
-                #max_tokens=1500,
-                #temperature=0.2,
+                response_format={"type": "json_object"},
+                # max_tokens=1500,
+                # temperature=0.2,
             )
 
             # Parse response
@@ -116,7 +152,8 @@ class AgentConceptsExtractor:
 
             # Filter by confidence and limit to most significant
             relevant_concepts = [
-                c for c in concepts
+                c
+                for c in concepts
                 if c.get("confidence", 0) >= 0.7  # Higher threshold for significance
             ][:10]  # Max 4 significant concepts
 
@@ -181,5 +218,5 @@ if __name__ == "__main__":
     )
 
     agent = AgentConceptsExtractor()
-    result_state = asyncio.run(agent.run(state))
+    result_state = asyncio.run(agent.extract_relevant_concepts_node(state))
     print(json.dumps(result_state, indent=2))

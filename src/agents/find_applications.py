@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+"""Agent to extract applications for significant concepts.
+find_applications.py
+"""
+
 import json
 import logging
 import base64
@@ -59,18 +64,18 @@ class AgentApplicationsFinder:
                     """
                 # Prepare messages for Mistral chat
                 messages = [
-                    {"role": "system",
-                     "content": "You are an expert at connecting abstract mathematical/scientific/linguistic concepts to exciting real-world applications that inspire learning."},
-                    {"role": "user", "content": applications_prompt}
+                    {
+                        "role": "system",
+                        "content": "You are an expert at connecting abstract mathematical/scientific/linguistic concepts to exciting real-world applications that inspire learning.",
+                    },
+                    {"role": "user", "content": applications_prompt},
                 ]
 
                 response = self.mistral_client.chat.complete(
                     model=config.MISTRAL_MODEL,
                     messages=messages,
-                    #max_tokens=2000,
-                    response_format={
-                    "type": "json_object"
-                    },
+                    # max_tokens=2000,
+                    response_format={"type": "json_object"},
                     # temperature=0.4
                 )
                 # Parse the response
@@ -84,15 +89,22 @@ class AgentApplicationsFinder:
                 except json.JSONDecodeError:
                     # Fallback parsing
                     import re
-                    json_match = re.search(r'\[.*\]', response.choices[0].message.content, re.DOTALL)
+
+                    json_match = re.search(
+                        r"\[.*\]", response.choices[0].message.content, re.DOTALL
+                    )
                     if json_match:
                         applications = json.loads(json_match.group())
                     else:
-                        logger.warning(f"Could not parse applications for {concept_name}")
+                        logger.warning(
+                            f"Could not parse applications for {concept_name}"
+                        )
                         applications = []
 
                 concept_applications[concept_name] = applications
-                logger.info(f"Found {len(applications)} applications for {concept_name}")
+                logger.info(
+                    f"Found {len(applications)} applications for {concept_name}"
+                )
 
                 # Small delay to respect rate limits
                 await asyncio.sleep(0.05)
@@ -117,10 +129,10 @@ if __name__ == "__main__":
         user_metadata={},
         relevant_concepts=[
             {"name": "Fourier Transform", "domain": "Mathematics"},
-            {"name": "Machine Learning", "domain": "Computer Science"}
+            {"name": "Machine Learning", "domain": "Computer Science"},
         ],
         concept_applications={},
-        error=None
+        error=None,
     )
 
     finder = AgentApplicationsFinder()
