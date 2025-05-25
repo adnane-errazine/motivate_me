@@ -11,10 +11,10 @@ from langgraph.graph import StateGraph, END
 
 from src.data_models import WorkflowState
 
-
 from src.agents.extract_concepts import AgentConceptsExtractor
 from src.agents.find_applications import AgentApplicationsFinder
 from src.agents.roadmap_agent import AgentRoadmap
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -25,7 +25,7 @@ class Orchestrator:
 
     def __init__(self):
         """Initialize the Orchestrator with the agents and workflow"""
-        
+
         self._agent_applications_finder = AgentApplicationsFinder()
         self._agent_concept_extractor = AgentConceptsExtractor()
         self._agent_roadmap = AgentRoadmap()
@@ -44,16 +44,16 @@ class Orchestrator:
         workflow.add_node(
             "find_applications", self._agent_applications_finder.find_applications_node
         )
-        
+
         workflow.add_node(
             "save_workflow_state_applications",
             self._save_workflow_state_applications
         )
-        
+
         workflow.add_node(
             "generate_roadmaps", self._generate_roadmaps_wrapper
         )
-        
+
         workflow.add_node(
             "save_workflow_state_roadmaps",
             self._save_workflow_state_roadmaps
@@ -62,49 +62,49 @@ class Orchestrator:
         # Add edges
         # Define the workflow flow
         workflow.set_entry_point("extract_relevant_concepts")
-        
+
         workflow.add_edge("extract_relevant_concepts", "find_applications")
         workflow.add_edge("find_applications", "save_workflow_state_applications")
         workflow.add_edge("save_workflow_state_applications", "generate_roadmaps")
         workflow.add_edge("generate_roadmaps", "save_workflow_state_roadmaps")
         workflow.add_edge("save_workflow_state_roadmaps", END)
         return workflow
-        
-    async def _save_workflow_state_applications(self, state: WorkflowState,) -> None:
+
+    async def _save_workflow_state_applications(self, state: WorkflowState, ) -> None:
         """Save the current workflow state to a json file"""
         file_path = f"tmp/workflow_state.json"
-        state["last_applications_timestamp"] = time.time() 
+        state["last_applications_timestamp"] = time.time()
         with open(file_path, "w") as f:
             json.dump(state, f, indent=4)
-        
+
         logger.info(f"Workflow state (application) saved to {file_path}")
         return state
-    
-    async def _save_workflow_state_roadmaps(self, state: WorkflowState,) -> None:
+
+    async def _save_workflow_state_roadmaps(self, state: WorkflowState, ) -> None:
         """Save the current workflow state to a json file"""
         file_path = f"tmp/workflow_state.json"
         state["last_roadmap_timestamp"] = time.time()
         with open(file_path, "w") as f:
             json.dump(state, f, indent=4)
-        
+
         logger.info(f"Workflow state (roadmap) saved to {file_path}")
         return state
-    
+
     async def _generate_roadmaps_wrapper(self, state: WorkflowState) -> WorkflowState:
         """Generate roadmaps for each application"""
         try:
             if state.get("error"):
                 logger.warning("Skipping roadmap generation due to previous error")
                 return state
-                
+
             logger.info(f"Starting roadmap generation for workflow {state['uuid']}")
-            
+
             concept_applications = state.get("concept_applications", {})
             roadmaps_generated = 0
-            
+
             # Generate roadmaps for each application
             for concept_name, applications in concept_applications.items():
-                
+
                 logger.info(f"Processing applications for concept: {concept_name}")
 
                 for app in applications:
@@ -113,31 +113,32 @@ class Orchestrator:
                         roadmap_state = await self._agent_roadmap.generate_roadmap(
                             state, app["name"]
                         )
-                        
+
                         # Add the roadmap to the application data
                         if "roadmap" in roadmap_state:
                             app["RoadmapData"] = [roadmap_state["roadmap"]]
                             roadmaps_generated += 1
                             logger.info(f"Generated roadmap for {app['name']}")
-                        
+
                         # Small delay to respect rate limits
                         await asyncio.sleep(0.1)
-                        
+
                     except Exception as e:
                         logger.error(f"Error generating roadmap for {app['name']}: {e}")
                         app["RoadmapData"] = None
-            
+
             logger.info(f"Generated {roadmaps_generated} roadmaps total")
             return state
         except Exception as e:
             logger.error(f"Error in roadmap generation: {e}")
             state["error"] = f"Roadmap generation failed: {str(e)}"
             return state
-        
+
 
 if __name__ == "__main__":
     import asyncio
     from src.data_models import WorkflowState
+
 
     async def main():
         orchestrator = Orchestrator()
@@ -147,7 +148,8 @@ if __name__ == "__main__":
             uuid="test-uuid-orchestrator",
             document_path="tmp/lecture8-fouriertransforms.pdf",
             text_input="This lecture covers advanced topics in signal processing.",
-            user_metadata={"background": "First year engineering student"}, # list of interests, career goals, education_level, backgroundn, hobbies.
+            user_metadata={"background": "First year engineering student"},
+            # list of interests, career goals, education_level, backgroundn, hobbies.
             relevant_concepts=[],
             concept_applications={},
             error=None,
@@ -160,8 +162,9 @@ if __name__ == "__main__":
         print(f"Concepts Extracted: {len(result_state.get('relevant_concepts', []))}")
         print(f"Applications Found: {sum(len(apps) for apps in result_state.get('concept_applications', {}).values())}")
         print("Printing result state:")
-        #print(result_state)
-        #if result_state.get("error"):
+        # print(result_state)
+        # if result_state.get("error"):
         #    print(f"\nError: {result_state['error']}")
+
 
     asyncio.run(main())
