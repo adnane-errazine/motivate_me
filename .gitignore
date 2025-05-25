@@ -14,3 +14,5 @@ uv.lock
 
 # Jetbrains
 .idea/
+
+tmp/workflow_state.json

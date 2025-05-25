@@ -72,11 +72,12 @@ async def get_workflow_state():
 
 if __name__ == "__main__":
     import asyncio
+    import httpx
     import json
+    import os
 
     async def main():
-        # Simulated request data
-        file_name = "linear_algebra_1.pdf" #"lecture8-fouriertransforms.pdf"
+        file_name = "linear_algebra_1.pdf"
         user_query = "This lecture covers advanced topics in signal processing and Fourier analysis."
 
         document_path = os.path.join("tmp", file_name)
@@ -84,25 +85,32 @@ if __name__ == "__main__":
             print(f"❌ Document not found at: {document_path}")
             return
 
-        # Create the WorkflowState manually
-        state = WorkflowState(
-            uuid="test-uuid-main",
-            document_path=document_path,
-            text_input=user_query,
-            user_metadata={"background": "First year engineering student"},
-            relevant_concepts=[],
-            concept_applications={},
-            error=None,
-        )
+        payload = {
+            "file_name": file_name,
+            "user_query": user_query
+        }
 
-        # Run workflow directly
-        print(f"✅ Running workflow on: {document_path}")
-        result = await orchestrator.workflow.compile().ainvoke(state)
+        api_url = "http://127.0.0.1:8000/run_workflow/"
 
-        print("\n=== Workflow Result ===")
-        print(json.dumps(result, indent=2, default=str))
+        # Set a long timeout (e.g., 300 seconds = 5 minutes)
+        timeout = httpx.Timeout(300.0)
 
+        async with httpx.AsyncClient(timeout=timeout) as client:
+            try:
+                print(f"📡 Sending request to {api_url}")
+                response = await client.post(api_url, json=payload)
+
+                print(f"✅ Status code: {response.status_code}")
+                print("=== Response ===")
+                print(json.dumps(response.json(), indent=2))
+
+            except httpx.RequestError as e:
+                print(f"❌ Request failed: {e}")
+    async def test_get_workflow_state():
+        api_url = "http://   get_workflow_state/"
     asyncio.run(main())
+
+
 
 
 

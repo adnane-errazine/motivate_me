@@ -43,7 +43,8 @@ class AgentApplicationsFinder:
                 # Generate applications prompt
                 applications_prompt = f"""
                     For the {domain} concept "{concept_name}", find 1-2 fascinating real-world applications that would excite and motivate learners, especially young learners.
-
+                    These applications should be relevant to the users input query and their interests, hobbies, or career goals.
+                    here is the user input: {state['text_input']}
                     Focus on:
                     - Modern technology applications (apps, devices, systems)
                     - Surprising everyday applications
@@ -52,7 +53,7 @@ class AgentApplicationsFinder:
 
                     Examples of the kind of applications I want:
                     - Fourier Transform → Shazam music recognition, JPEG compression, MRI imaging, noise cancellation
-                    - Machine Learning → Netflix recommendations, autonomous cars, medical diagnosis
+                    - Matrices → chatGPT (transformer architectures), Netflix recommendations, autonomous cars, medical diagnosis
                     - Graph Theory → GPS navigation, social networks, supply chain optimization
 
                     For each application, provide:

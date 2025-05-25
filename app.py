@@ -72,6 +72,12 @@ async def validation_exception_handler(
 @router.post("/run_workflow/")
 async def run_workflow(request: WorkflowRequest):
     try:
+        
+        # detele the tmp/workflow_state.json file if it exists
+        workflow_state_path = os.path.join("tmp", "workflow_state.json")
+        if os.path.exists(workflow_state_path):
+            os.remove(workflow_state_path)
+        
         document_path = os.path.join("tmp", request.file_name)
 
         if not os.path.exists(document_path):
