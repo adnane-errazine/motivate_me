@@ -31,7 +31,7 @@ class Orchestrator:
 
         self.workflow = self._build_workflow()
 
-    def _build_workflow(self) -> StateGraph:
+    def _build_workflow(self) -> Any:
         """Build the LangGraph workflow"""
         workflow = StateGraph(WorkflowState)
 
