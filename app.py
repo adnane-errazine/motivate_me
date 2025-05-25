@@ -1,14 +1,20 @@
-from fastapi import APIRouter, HTTPException, FastAPI
-from pydantic import BaseModel
 import os
+from http import HTTPStatus
+from typing import Any, Sequence, Optional
+
+from fastapi import APIRouter, HTTPException
+from fastapi import FastAPI, Request
+from fastapi.encoders import jsonable_encoder
+from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 
 from src.agents.orchestrator import Orchestrator
 from src.data_models import WorkflowState
-from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 router = APIRouter()
-app.include_router(router)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -21,9 +27,45 @@ orchestrator = Orchestrator()
 
 class WorkflowRequest(BaseModel):
     # uuid: str
-    file_name: str
-    user_query: str
+    file_name: Optional[str] = ""
+    user_query: Optional[str] = ""
     # user_metadata: Optional[dict] = {}
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(
+        _: Request,
+        exc: RequestValidationError,
+) -> JSONResponse:
+    """Custom exception handler for handling FastAPI RequestValidationErrors.
+
+    Pydantic models throw RequestValidationErrors when validation errors occur.
+
+    Args:
+        _: FastAPI Request object (unused).
+        exc (RequestValidationError): The raised RequestValidationError.
+
+    Returns:
+        JSONResponse: A JSON response containing information about the validation errors.
+    """
+    errors: Sequence[dict[str, Any]] = exc.errors()
+    print(errors)
+
+    return JSONResponse(
+        status_code=HTTPStatus.UNPROCESSABLE_ENTITY,
+        content=jsonable_encoder(
+            {
+                "message": f"An error occurred: {exc.__class__.__name__}",
+                "details": [
+                    {
+                        "loc": ".".join(map(str, error.get("loc") or [])),
+                        "error": error.get("msg"),
+                    }
+                    for error in errors
+                ],
+            }
+        ),
+    )
 
 
 @router.post("/run_workflow/")
@@ -55,3 +97,6 @@ async def run_workflow(request: WorkflowRequest):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+app.include_router(router)
