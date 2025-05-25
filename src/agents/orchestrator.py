@@ -4,7 +4,8 @@ orchestrator.py
 """
 import asyncio
 import logging
-
+import time
+import json
 
 from langgraph.graph import StateGraph, END
 
@@ -43,19 +44,52 @@ class Orchestrator:
         workflow.add_node(
             "find_applications", self._agent_applications_finder.find_applications_node
         )
+        
+        workflow.add_node(
+            "save_workflow_state_applications",
+            self._save_workflow_state_applications
+        )
+        
         workflow.add_node(
             "generate_roadmaps", self._generate_roadmaps_wrapper
         )
+        
+        workflow.add_node(
+            "save_workflow_state_roadmaps",
+            self._save_workflow_state_roadmaps
+        )
+
         # Add edges
         # Define the workflow flow
         workflow.set_entry_point("extract_relevant_concepts")
         
         workflow.add_edge("extract_relevant_concepts", "find_applications")
-        workflow.add_edge("find_applications", "generate_roadmaps")
-        workflow.add_edge("generate_roadmaps", END)
+        workflow.add_edge("find_applications", "save_workflow_state_applications")
+        workflow.add_edge("save_workflow_state_applications", "generate_roadmaps")
+        workflow.add_edge("generate_roadmaps", "save_workflow_state_roadmaps")
+        workflow.add_edge("save_workflow_state_roadmaps", END)
         return workflow
         
+    async def _save_workflow_state_applications(self, state: WorkflowState,) -> None:
+        """Save the current workflow state to a json file"""
+        file_path = f"tmp/workflow_state.json"
+        state["last_applications_timestamp"] = time.time() 
+        with open(file_path, "w") as f:
+            json.dump(state, f, indent=4)
         
+        logger.info(f"Workflow state (application) saved to {file_path}")
+        return state
+    
+    async def _save_workflow_state_roadmaps(self, state: WorkflowState,) -> None:
+        """Save the current workflow state to a json file"""
+        file_path = f"tmp/workflow_state.json"
+        state["last_roadmap_timestamp"] = time.time()
+        with open(file_path, "w") as f:
+            json.dump(state, f, indent=4)
+        
+        logger.info(f"Workflow state (roadmap) saved to {file_path}")
+        return state
+    
     async def _generate_roadmaps_wrapper(self, state: WorkflowState) -> WorkflowState:
         """Generate roadmaps for each application"""
         try:
@@ -123,12 +157,11 @@ if __name__ == "__main__":
         result_state = await orchestrator.workflow.compile().ainvoke(test_state)
 
         print("\n=== Orchestrator Workflow Result ===")
-        print(f"Status: {result_state.get('workflow_summary', {}).get('status', 'N/A')}")
         print(f"Concepts Extracted: {len(result_state.get('relevant_concepts', []))}")
         print(f"Applications Found: {sum(len(apps) for apps in result_state.get('concept_applications', {}).values())}")
         print("Printing result state:")
-        print(result_state)
-        if result_state.get("error"):
-            print(f"\nError: {result_state['error']}")
+        #print(result_state)
+        #if result_state.get("error"):
+        #    print(f"\nError: {result_state['error']}")
 
     asyncio.run(main())

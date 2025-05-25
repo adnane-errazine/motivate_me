@@ -57,7 +57,7 @@ class AgentConceptsExtractor:
             Return a JSON array with only the most significant 2-4 concepts. Quality over quantity."""
 
             # Create a directory for the current workflow
-            output_dir = create_uuid_directory(state["uuid"])
+            #output_dir = create_uuid_directory(state["uuid"])
 
             # if  state["document_path"].endswith(".pdf"):
             # Convert the PDF to images and save them in the output directory
@@ -106,25 +106,25 @@ class AgentConceptsExtractor:
                     }
                 )
 
-            if (
-                state["document_path"].endswith(".jpg")
-                or state["document_path"].endswith(".jpeg")
-                or state["document_path"].endswith(".png")
-            ):
-                # Encode and append each image
-                for counter, image_path in enumerate(image_files):
-                    image_base64 = encode_image(image_path)
-                    messages[1]["content"].append(
-                        {
-                            "type": "image_url",
-                            "image_url": {
-                                "url": f"data:image/jpeg;base64,{image_base64}"
-                            },
-                        }
-                    )
-                    if counter >= 6:
-                        logger.info("Limiting to 6 images for performance")
-                        break
+            # if (
+            #     state["document_path"].endswith(".jpg")
+            #     or state["document_path"].endswith(".jpeg")
+            #     or state["document_path"].endswith(".png")
+            # ):
+            #     # Encode and append each image
+            #     for counter, image_path in enumerate(image_files):
+            #         image_base64 = encode_image(image_path)
+            #         messages[1]["content"].append(
+            #             {
+            #                 "type": "image_url",
+            #                 "image_url": {
+            #                     "url": f"data:image/jpeg;base64,{image_base64}"
+            #                 },
+            #             }
+            #         )
+            #         if counter >= 6:
+            #             logger.info("Limiting to 6 images for performance")
+            #             break
 
             response = self.mistral_client.chat.complete(
                 model=config.MISTRAL_MODEL_VISION,
@@ -169,35 +169,35 @@ class AgentConceptsExtractor:
         return state
 
 
-def encode_image(image_path: str) -> str:
-    """Encode image to base64"""
-    with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode("utf-8")
+# def encode_image(image_path: str) -> str:
+#     """Encode image to base64"""
+#     with open(image_path, "rb") as image_file:
+#         return base64.b64encode(image_file.read()).decode("utf-8")
 
 
-def create_uuid_directory(uuid: str) -> str:
-    """
-    Create a directory named after the UUID inside the 'tmp' folder.
-    Returns the path to the created directory.
-    """
-    directory_path = os.path.join("tmp", uuid)
-    os.makedirs(directory_path, exist_ok=True)
-    return directory_path
+# def create_uuid_directory(uuid: str) -> str:
+#     """
+#     Create a directory named after the UUID inside the 'tmp' folder.
+#     Returns the path to the created directory.
+#     """
+#     directory_path = os.path.join("tmp", uuid)
+#     os.makedirs(directory_path, exist_ok=True)
+#     return directory_path
 
 
-def convert_pdf_to_images(pdf_path: str, output_folder: str) -> list:
-    """
-    Convert each page of the PDF to an image and save them in the output folder.
-    Returns a list of image file paths.
-    """
-    images = convert_from_path(pdf_path, dpi=300)
-    image_paths = []
-    for i, image in enumerate(images):
-        image_filename = f"page_{i + 1}.jpg"
-        image_path = os.path.join(output_folder, image_filename)
-        image.save(image_path, "JPEG")
-        image_paths.append(image_path)
-    return image_paths
+# def convert_pdf_to_images(pdf_path: str, output_folder: str) -> list:
+#     """
+#     Convert each page of the PDF to an image and save them in the output folder.
+#     Returns a list of image file paths.
+#     """
+#     images = convert_from_path(pdf_path, dpi=300)
+#     image_paths = []
+#     for i, image in enumerate(images):
+#         image_filename = f"page_{i + 1}.jpg"
+#         image_path = os.path.join(output_folder, image_filename)
+#         image.save(image_path, "JPEG")
+#         image_paths.append(image_path)
+#     return image_paths
 
 
 if __name__ == "__main__":

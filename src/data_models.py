@@ -37,5 +37,6 @@ class WorkflowState(TypedDict):
     concept_applications: Dict[
         str, List[ApplicationData]
     ]  # Key: concept name, Value: list of applications
-
+    last_applications_timestamp = Optional[str]
+    last_roadmap_timestamp = Optional[str]
     error: Optional[str]
