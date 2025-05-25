@@ -107,22 +107,16 @@ class AgentApplicationsFinder:
 
         return state
 
+    async def run(self, state: WorkflowState) -> WorkflowState:
+        """Run the agent to find applications for significant concepts"""
+        logger.info("Running FindApplications agent")
 
-if __name__ == "__main__":
-    # Example usage
-    state = WorkflowState(
-        uuid="example-uuid",
-        document_path="example/path/to/document",
-        text_input="Example input text",
-        user_metadata={},
-        relevant_concepts=[
-            {"name": "Fourier Transform", "domain": "Mathematics"},
-            {"name": "Machine Learning", "domain": "Computer Science"}
-        ],
-        concept_applications={},
-        error=None
-    )
+        # Ensure we have significant concepts to work with
+        if not state.get("relevant_concepts"):
+            logger.warning("No significant concepts found, skipping application search")
+            return state
 
-    finder = AgentApplicationsFinder()
-    asyncio.run(finder.find_applications_node(state))
-    print(json.dumps(state, indent=2))
+        # Run the application finding node
+        state = await self.find_applications_node(state)
+
+        return state
