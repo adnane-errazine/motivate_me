@@ -54,7 +54,7 @@ class AgentConceptsExtractor:
             4. significance: Why this concept is important and powerful
             5. confidence: Your confidence this is correctly identified (0.0-1.0)
 
-            Return a JSON array with only the most significant concepts. Quality over quantity."""
+            Return a JSON array with only the top 3 most significant concepts. Quality over quantity."""
 
             # Create a directory for the current workflow
             #output_dir = create_uuid_directory(state["uuid"])

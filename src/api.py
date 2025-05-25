@@ -12,8 +12,8 @@ orchestrator = Orchestrator()
 
 class WorkflowRequest(BaseModel):
     # uuid: str
-    file_name: str
-    user_query: str
+    file_name: Optional[str] = ""
+    user_query: Optional[str] = ""
     # user_metadata: Optional[dict] = {}
 
 

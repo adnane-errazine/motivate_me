@@ -106,11 +106,6 @@ async def run_workflow(request: WorkflowRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-app.include_router(router)
-
-
-
-
 @router.get("/get_workflow_state/")
 async def get_workflow_state():
     """ Endpoint to retrieve the tmp/workflow_state.json file."""
@@ -133,3 +128,6 @@ async def get_workflow_state():
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+app.include_router(router)
