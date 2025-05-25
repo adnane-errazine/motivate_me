@@ -1,39 +1,88 @@
 {
-    "uuid": "test-uuid-orchestrator",
-    "document_path": "tmp/lecture8-fouriertransforms.pdf",
-    "text_input": "This lecture covers advanced topics in signal processing.",
+    "uuid": "test-uuid-main",
+    "document_path": "tmp\\linear_algebra_1.pdf",
+    "text_input": "This lecture covers advanced topics in signal processing and Fourier analysis.",
     "user_metadata": {
         "background": "First year engineering student"
     },
     "relevant_concepts": [
         {
-            "name": "Fourier Transform",
-            "type": "transform",
+            "name": "Row Echelon Form (REF)",
+            "type": "form",
             "domain": "mathematics",
-            "significance": "The Fourier Transform is a powerful tool in signal processing and data analysis. It decomposes a time signal into its constituent frequencies, allowing for the analysis of frequency components. This is crucial in fields like audio processing, image analysis, and communication systems, where understanding the frequency domain is essential for tasks such as filtering, compression, and noise reduction.",
+            "significance": "REF is a crucial form in linear algebra used to simplify matrices and solve systems of linear equations. It helps in identifying the rank of a matrix and understanding the solution space of linear systems.",
             "confidence": 0.95
         },
         {
-            "name": "Dirac Delta Function",
-            "type": "function",
+            "name": "Reduced Row Echelon Form (RREF)",
+            "type": "form",
             "domain": "mathematics",
-            "significance": "The Dirac Delta Function is a fundamental concept in mathematics and physics, representing an idealized point source or impulse. It is used extensively in quantum mechanics, signal processing, and engineering to model instantaneous events or sharp transitions. Its properties make it invaluable for solving differential equations and analyzing systems with impulsive inputs.",
+            "significance": "RREF is a more refined form of REF, providing a unique representation of a matrix. It is essential for solving linear systems, determining the rank of a matrix, and understanding the null space and column space of a matrix.",
+            "confidence": 0.95
+        },
+        {
+            "name": "Rank Theorem",
+            "type": "theorem",
+            "domain": "mathematics",
+            "significance": "The Rank Theorem is fundamental in linear algebra, providing a way to determine the number of free parameters in the solution set of a linear system. It is crucial for understanding the structure of the solution space.",
             "confidence": 0.9
         },
         {
-            "name": "Filtering",
+            "name": "Linear Combination",
+            "type": "concept",
+            "domain": "mathematics",
+            "significance": "The concept of a linear combination is central to linear algebra. It is used to determine if a vector can be expressed as a combination of other vectors, which is fundamental in understanding vector spaces and subspaces.",
+            "confidence": 0.95
+        },
+        {
+            "name": "Span of a Set of Vectors",
+            "type": "concept",
+            "domain": "mathematics",
+            "significance": "The span of a set of vectors is a fundamental concept in linear algebra. It represents the space of all possible linear combinations of the given vectors, which is crucial for understanding vector spaces and their dimensions.",
+            "confidence": 0.95
+        },
+        {
+            "name": "Matrix-Vector Multiplication",
+            "type": "operation",
+            "domain": "mathematics",
+            "significance": "Matrix-vector multiplication is a fundamental operation in linear algebra. It is used to transform vectors and is essential for solving systems of linear equations and understanding linear transformations.",
+            "confidence": 0.95
+        },
+        {
+            "name": "Matrix Equation",
+            "type": "equation",
+            "domain": "mathematics",
+            "significance": "The matrix equation Ax=b is a fundamental problem in linear algebra. It is used to solve systems of linear equations and understand the relationship between matrices and vectors.",
+            "confidence": 0.95
+        },
+        {
+            "name": "Consistency of Linear Systems",
+            "type": "concept",
+            "domain": "mathematics",
+            "significance": "Understanding the consistency of linear systems is crucial for solving systems of linear equations. It determines whether a solution exists and, if so, whether it is unique or not.",
+            "confidence": 0.9
+        },
+        {
+            "name": "Elementary Row Operations",
+            "type": "operation",
+            "domain": "mathematics",
+            "significance": "Elementary row operations are fundamental techniques used to simplify matrices and solve systems of linear equations. They are essential for transforming matrices into REF and RREF.",
+            "confidence": 0.95
+        },
+        {
+            "name": "Back Substitution",
             "type": "method",
-            "domain": "signal processing",
-            "significance": "Filtering is a crucial technique in signal processing that involves modifying the frequency content of a signal. High-pass, low-pass, and band-pass filters are used to remove unwanted frequencies, reduce noise, and enhance desired signal components. This is essential in applications such as audio processing, image enhancement, and communication systems, where clear and accurate signal representation is vital.",
-            "confidence": 0.85
+            "domain": "mathematics",
+            "significance": "Back substitution is a method used to solve systems of linear equations once they have been transformed into an upper triangular form. It is efficient and widely used in numerical methods.",
+            "confidence": 0.9
         }
     ],
     "concept_applications": {
-        "Fourier Transform": [
+        "Row Echelon Form (REF)": [
             {
-                "name": "Noise-Cancelling Headphones",
-                "brief_description": "Headphones that reduce background noise for a better listening experience",
-                "description": "Noise-cancelling headphones use the Fourier Transform to analyze and cancel out unwanted background noise. By converting the sound waves into their frequency components, the headphones can identify and generate 'anti-noise' to neutralize the disturbing frequencies. This technology is used in high-end headphones like Bose QuietComfort and Sony WH-1000XM series, providing users with a clearer and more immersive audio experience, especially in noisy environments like airplanes or busy offices. The Fourier Transform's ability to break down complex sounds into simpler parts makes it an essential tool in this application.",
+                "name": "Google's PageRank Algorithm",
+                "brief_description": "Google's system for ranking web pages in search results",
+                "description": "Row Echelon Form (REF) is crucial in the mathematical foundation of Google's PageRank algorithm, which determines the importance of web pages and ranks them in search results. The algorithm uses a large matrix to represent the link structure of the web, and converting this matrix to REF helps in finding the principal eigenvector, which indicates the importance of each page. This application showcases the power of linear algebra in organizing and retrieving information on an unprecedented scale, making the internet more navigable and accessible. The wow factor lies in the fact that every time you use Google Search, you're witnessing the practical application of REF in action, helping you find relevant information efficiently.",
                 "images": [
                     {
                         "url": "https://mriquestions.com/uploads/3/4/5/7/34572113/9600204_orig.gif",
@@ -42,70 +91,13 @@
                         "context": "Fourier Transform (FT) - Questions and Answers in MRI",
                         "width": 708,
                         "height": 570
-                    }
-                ],
-                "RoadmapData": [
-                    {
-                        "title": "Noise-Cancelling Headphones: Learning Roadmap",
-                        "description_1": [
-                            [
-                                "Basic Acoustics",
-                                "10 hours",
-                                "Understanding the fundamentals of sound waves, frequency, amplitude, and how sound travels through different mediums."
-                            ],
-                            [
-                                "Analog Electronics",
-                                "15 hours",
-                                "Basic knowledge of electronic components and circuits, including resistors, capacitors, and operational amplifiers."
-                            ],
-                            [
-                                "Digital Signal Processing (DSP) Basics",
-                                "10 hours",
-                                "Introduction to DSP concepts, including sampling, quantization, and basic signal processing techniques."
-                            ]
-                        ],
-                        "description_2": [
-                            [
-                                "Fourier Transform",
-                                "15 hours",
-                                "Understanding how to decompose a time-domain signal into its frequency components, essential for analyzing and processing audio signals."
-                            ],
-                            [
-                                "Filtering",
-                                "15 hours",
-                                "Learning about different types of filters (low-pass, high-pass, band-pass) and their applications in noise reduction and signal enhancement."
-                            ],
-                            [
-                                "Feedback and Feedforward Systems",
-                                "10 hours",
-                                "Understanding how feedback and feedforward mechanisms are used in noise-cancelling systems to reduce unwanted sounds."
-                            ]
-                        ],
-                        "description_3": [
-                            [
-                                "Dirac Delta Function",
-                                "10 hours",
-                                "Advanced mathematical tool used in signal processing to model impulses and understand the behavior of systems in the frequency domain."
-                            ],
-                            [
-                                "Adaptive Filtering Algorithms",
-                                "20 hours",
-                                "Learning about adaptive algorithms like LMS (Least Mean Squares) and RLMS (Recursive Least Mean Squares) for real-time noise cancellation."
-                            ],
-                            [
-                                "Microphone Array Processing",
-                                "15 hours",
-                                "Understanding how multiple microphones can be used to enhance noise cancellation by capturing and processing sound from different directions."
-                            ]
-                        ],
-                        "application": "Noise-Cancelling Headphones"
                     }
                 ]
             },
             {
-                "name": "Heart Rate Monitoring in Wearable Devices",
-                "brief_description": "Wearable devices that track heart rate for fitness and health monitoring",
-                "description": "Wearable devices like the Apple Watch and Fitbit use the Fourier Transform to analyze heart rate data and provide insights into users' health and fitness. By converting the heart rate signal into its frequency components, these devices can detect irregularities and patterns that might indicate health issues, such as arrhythmias or stress levels. The Fourier Transform helps in filtering out noise and focusing on the relevant frequency components, making it a crucial tool in processing and interpreting heart rate data. This application showcases the power of the Fourier Transform in transforming raw data into meaningful health insights, motivating users to take control of their well-being.",
+                "name": "Autonomous Vehicle Localization",
+                "brief_description": "Systems that help self-driving cars determine their position",
+                "description": "In autonomous vehicles, Row Echelon Form is used in sensor fusion algorithms to integrate data from various sensors like LiDAR, radar, and cameras. These sensors provide measurements that can be represented as matrices, and converting them to REF helps in accurately estimating the vehicle's position and orientation. This is vital for safe and reliable navigation, as it enables the vehicle to understand its environment and make informed decisions. The cutting-edge nature of this application, combined with its potential to revolutionize transportation, makes it an exciting real-world use of REF. Additionally, the precision required in autonomous vehicle localization highlights the importance of REF in achieving high accuracy in mathematical computations.",
                 "images": [
                     {
                         "url": "https://mriquestions.com/uploads/3/4/5/7/34572113/9600204_orig.gif",
@@ -114,77 +106,15 @@
                         "context": "Fourier Transform (FT) - Questions and Answers in MRI",
                         "width": 708,
                         "height": 570
-                    }
-                ],
-                "RoadmapData": [
-                    {
-                        "title": "Heart Rate Monitoring in Wearable Devices Learning Roadmap",
-                        "description_1": [
-                            [
-                                "Basic Electronics",
-                                "10 hours",
-                                "Understanding of basic electronic components and circuits, crucial for building and interfacing with wearable devices."
-                            ],
-                            [
-                                "Analog-to-Digital Conversion",
-                                "8 hours",
-                                "Converting analog signals from sensors into digital data that can be processed by a microcontroller."
-                            ],
-                            [
-                                "Photoplethysmography (PPG)",
-                                "12 hours",
-                                "Fundamental principle behind heart rate monitoring in wearable devices, involving the measurement of blood volume changes."
-                            ],
-                            [
-                                "Signal Processing Basics",
-                                "10 hours",
-                                "Introduction to signal processing techniques essential for analyzing heart rate signals."
-                            ]
-                        ],
-                        "description_2": [
-                            [
-                                "Microcontroller Programming",
-                                "20 hours",
-                                "Programming microcontrollers to interface with sensors and process data, essential for implementing heart rate monitoring algorithms."
-                            ],
-                            [
-                                "Filtering",
-                                "15 hours",
-                                "Techniques for removing noise from heart rate signals to improve accuracy and reliability."
-                            ],
-                            [
-                                "Heart Rate Variability (HRV)",
-                                "15 hours",
-                                "Understanding HRV and its significance in health monitoring, involving advanced signal processing techniques."
-                            ]
-                        ],
-                        "description_3": [
-                            [
-                                "Fourier Transform",
-                                "20 hours",
-                                "Advanced signal processing technique for analyzing the frequency components of heart rate signals."
-                            ],
-                            [
-                                "Dirac Delta Function",
-                                "15 hours",
-                                "Mathematical tool used in signal processing for analyzing and modeling heart rate signals."
-                            ],
-                            [
-                                "Real-Time Signal Processing",
-                                "25 hours",
-                                "Techniques for processing heart rate signals in real-time, essential for wearable device applications."
-                            ]
-                        ],
-                        "application": "Heart Rate Monitoring in Wearable Devices"
                     }
                 ]
             }
         ],
-        "Dirac Delta Function": [
+        "Reduced Row Echelon Form (RREF)": [
             {
-                "name": "Quantum Computing",
-                "brief_description": "Quantum computers perform complex calculations using quantum bits",
-                "description": "The Dirac Delta Function is crucial in the field of quantum computing, particularly in the design and operation of quantum algorithms. Quantum computers use qubits, which can exist in multiple states simultaneously thanks to a property called superposition. The Dirac Delta Function helps in describing and manipulating these quantum states. For instance, in quantum error correction, the Dirac Delta Function is used to model and correct errors that occur due to the delicate nature of quantum states. This application showcases the power of the Dirac Delta Function in enabling cutting-edge technologies that promise to revolutionize fields such as cryptography, drug discovery, and complex system simulations.",
+                "name": "Google Maps",
+                "brief_description": "Google Maps provides navigation and location-based services",
+                "description": "Google Maps uses Reduced Row Echelon Form (RREF) in its backend algorithms to solve systems of linear equations efficiently. This is crucial for tasks like route optimization, where the system needs to find the shortest or fastest path between multiple points. By converting large matrices into RREF, Google Maps can quickly determine the best routes, considering various factors like traffic, road closures, and user preferences. This application showcases the power of RREF in handling complex, real-time data to provide seamless navigation experiences for millions of users daily.",
                 "images": [
                     {
                         "url": "https://mriquestions.com/uploads/3/4/5/7/34572113/9600204_orig.gif",
@@ -193,85 +123,13 @@
                         "context": "Fourier Transform (FT) - Questions and Answers in MRI",
                         "width": 708,
                         "height": 570
-                    }
-                ],
-                "RoadmapData": [
-                    {
-                        "title": "Quantum Computing Learning Roadmap",
-                        "description_1": [
-                            [
-                                "Linear Algebra",
-                                "10 days",
-                                "Fundamental mathematical tool for understanding quantum states and operations."
-                            ],
-                            [
-                                "Probability and Statistics",
-                                "7 days",
-                                "Essential for understanding quantum measurement and uncertainty."
-                            ],
-                            [
-                                "Basic Quantum Mechanics",
-                                "15 days",
-                                "Introduction to quantum bits (qubits), superposition, and entanglement."
-                            ],
-                            [
-                                "Dirac Delta Function",
-                                "5 days",
-                                "Understanding the Dirac Delta Function is crucial for understanding quantum state representation."
-                            ]
-                        ],
-                        "description_2": [
-                            [
-                                "Quantum Gates and Circuits",
-                                "10 days",
-                                "Building blocks for quantum algorithms and computations."
-                            ],
-                            [
-                                "Fourier Transform",
-                                "7 days",
-                                "Used in quantum algorithms for frequency analysis and solving certain types of problems."
-                            ],
-                            [
-                                "Quantum Algorithms",
-                                "15 days",
-                                "Key algorithms like Shor's and Grover's, which demonstrate quantum computing's power."
-                            ],
-                            [
-                                "Filtering",
-                                "5 days",
-                                "Understanding filtering techniques is important for signal processing in quantum systems."
-                            ]
-                        ],
-                        "description_3": [
-                            [
-                                "Quantum Error Correction",
-                                "15 days",
-                                "Techniques to protect quantum information from errors due to decoherence and noise."
-                            ],
-                            [
-                                "Quantum Cryptography",
-                                "10 days",
-                                "Using quantum mechanics for secure communication and encryption."
-                            ],
-                            [
-                                "Quantum Machine Learning",
-                                "15 days",
-                                "Applying quantum computing to machine learning problems for potential speedup."
-                            ],
-                            [
-                                "Quantum Hardware and Implementation",
-                                "20 days",
-                                "Understanding the physical realization of quantum computers and their challenges."
-                            ]
-                        ],
-                        "application": "Quantum Computing"
                     }
                 ]
             },
             {
-                "name": "Signal Processing in Medical Imaging",
-                "brief_description": "Medical imaging systems create detailed images of the body's interior",
-                "description": "In medical imaging, the Dirac Delta Function plays a vital role in signal processing techniques used to enhance the clarity and accuracy of images. For example, in Positron Emission Tomography (PET) scans, the Dirac Delta Function is used to model the point-like sources of radiation within the body. This allows for precise localization of metabolic activity, which is crucial for diagnosing conditions like cancer. The function helps in filtering out noise and improving the resolution of the images, making it an essential tool in modern medical diagnostics. This application highlights the relevance of the Dirac Delta Function in saving lives and improving healthcare outcomes.",
+                "name": "Autonomous Vehicles",
+                "brief_description": "Autonomous vehicles navigate and drive without human intervention",
+                "description": "In autonomous vehicles, RREF is used in sensor fusion algorithms to integrate data from various sensors like LiDAR, radar, and cameras. These sensors generate large datasets that need to be processed in real-time to make driving decisions. By converting the data into RREF, the vehicle's onboard computer can solve systems of linear equations quickly, enabling it to understand its environment, detect obstacles, and plan safe trajectories. This application highlights the cutting-edge use of RREF in enabling the future of transportation, making self-driving cars a reality.",
                 "images": [
                     {
                         "url": "https://mriquestions.com/uploads/3/4/5/7/34572113/9600204_orig.gif",
@@ -280,72 +138,15 @@
                         "context": "Fourier Transform (FT) - Questions and Answers in MRI",
                         "width": 708,
                         "height": 570
-                    }
-                ],
-                "RoadmapData": [
-                    {
-                        "title": "Signal Processing in Medical Imaging Learning Roadmap",
-                        "description_1": [
-                            [
-                                "Basic Mathematics for Signal Processing",
-                                "15 hours",
-                                "Covers essential math concepts like algebra, calculus, and basic statistics, which are crucial for understanding signal processing principles."
-                            ],
-                            [
-                                "Introduction to Signals and Systems",
-                                "10 hours",
-                                "Fundamental concepts of signals (continuous and discrete), systems, and their classifications, which are the building blocks of signal processing."
-                            ],
-                            [
-                                "Basic Digital Signal Processing",
-                                "15 hours",
-                                "Introduction to sampling, quantization, and basic DSP techniques, which are essential for processing digital medical images."
-                            ]
-                        ],
-                        "description_2": [
-                            [
-                                "Fourier Transform",
-                                "15 hours",
-                                "Understanding the Fourier Transform is crucial for analyzing the frequency components of signals in medical imaging, enabling tasks like filtering and image reconstruction."
-                            ],
-                            [
-                                "Dirac Delta Function",
-                                "8 hours",
-                                "The Dirac Delta Function is essential for understanding impulse responses and convolution in signal processing, which are used in medical imaging for tasks like image enhancement."
-                            ],
-                            [
-                                "Filtering",
-                                "15 hours",
-                                "Learn about different types of filters (low-pass, high-pass, band-pass) and their applications in medical imaging, such as noise reduction and feature enhancement."
-                            ]
-                        ],
-                        "description_3": [
-                            [
-                                "Advanced Signal Processing Techniques",
-                                "20 hours",
-                                "Explore advanced techniques like wavelet transforms, adaptive filtering, and image reconstruction algorithms, which are used in cutting-edge medical imaging technologies."
-                            ],
-                            [
-                                "Medical Image Processing",
-                                "20 hours",
-                                "Specialized topics in medical image processing, including segmentation, registration, and visualization techniques, which are crucial for analyzing medical images."
-                            ],
-                            [
-                                "Signal Processing in Medical Imaging Applications",
-                                "20 hours",
-                                "Study real-world applications of signal processing in medical imaging, such as MRI, CT, and ultrasound, including their principles, challenges, and advancements."
-                            ]
-                        ],
-                        "application": "Signal Processing in Medical Imaging"
                     }
                 ]
             }
         ],
-        "Filtering": [
+        "Rank Theorem": [
             {
-                "name": "Noise-Cancelling Headphones",
-                "brief_description": "Headphones that reduce background noise for a better listening experience",
-                "description": "Noise-cancelling headphones use filtering to eliminate unwanted background noise, allowing users to enjoy their music or focus on work in noisy environments. These headphones contain microphones that pick up external sounds, and then use filters to create 'anti-noise' signals that cancel out the background noise. This application of filtering technology makes long flights, commutes, or study sessions more enjoyable and productive. Some advanced models, like Bose QuietComfort or Sony WH-1000XM5, use adaptive filtering to continuously adjust to changing noise environments, providing an even more immersive experience.",
+                "name": "Google Street View",
+                "brief_description": "Google Street View provides panoramic views of locations around the world",
+                "description": "The Rank Theorem plays a crucial role in the computer vision algorithms used by Google Street View. When Google's cameras capture images from different angles and positions, the Rank Theorem helps in determining the structure and layout of the environment. By analyzing the rank of the matrix formed by the image features, the system can understand the 3D geometry of the scene, enabling the creation of immersive, navigable street views. This application showcases how the Rank Theorem helps in transforming 2D images into 3D models, making virtual exploration of the world possible.",
                 "images": [
                     {
                         "url": "https://mriquestions.com/uploads/3/4/5/7/34572113/9600204_orig.gif",
@@ -354,70 +155,13 @@
                         "context": "Fourier Transform (FT) - Questions and Answers in MRI",
                         "width": 708,
                         "height": 570
-                    }
-                ],
-                "RoadmapData": [
-                    {
-                        "title": "Noise-Cancelling Headphones: Learning Roadmap",
-                        "description_1": [
-                            [
-                                "Basic Acoustics",
-                                "10 hours",
-                                "Understanding the fundamentals of sound waves, frequency, amplitude, and how sound travels through different mediums."
-                            ],
-                            [
-                                "Analog Electronics",
-                                "15 hours",
-                                "Basic knowledge of electronic components and circuits, including resistors, capacitors, and operational amplifiers."
-                            ],
-                            [
-                                "Digital Signal Processing (DSP) Basics",
-                                "10 hours",
-                                "Introduction to DSP concepts, including sampling, quantization, and basic signal processing techniques."
-                            ]
-                        ],
-                        "description_2": [
-                            [
-                                "Fourier Transform",
-                                "15 hours",
-                                "Understanding how to decompose a time-domain signal into its frequency components, essential for analyzing and processing audio signals."
-                            ],
-                            [
-                                "Filtering",
-                                "15 hours",
-                                "Learning about different types of filters (low-pass, high-pass, band-pass) and their applications in noise reduction and signal enhancement."
-                            ],
-                            [
-                                "Microphone and Speaker Principles",
-                                "10 hours",
-                                "Understanding the working principles of microphones and speakers, which are crucial components in noise-cancelling headphones."
-                            ]
-                        ],
-                        "description_3": [
-                            [
-                                "Adaptive Filtering and Feedback Systems",
-                                "20 hours",
-                                "Advanced techniques for real-time noise cancellation, including adaptive algorithms and feedback control systems."
-                            ],
-                            [
-                                "Dirac Delta Function",
-                                "10 hours",
-                                "Understanding the Dirac delta function and its applications in signal processing, particularly in the context of impulse responses and filtering."
-                            ],
-                            [
-                                "Hardware Implementation and Optimization",
-                                "20 hours",
-                                "Practical aspects of implementing noise-cancelling algorithms in hardware, including considerations for power consumption, latency, and real-time processing."
-                            ]
-                        ],
-                        "application": "Noise-Cancelling Headphones"
                     }
                 ]
             },
             {
-                "name": "Electroencephalogram (EEG) Signal Processing",
-                "brief_description": "Brain-computer interfaces that translate brain signals into commands",
-                "description": "EEG signal processing is a cutting-edge application of filtering in the field of brain-computer interfaces (BCIs). Devices like the Emotiv EPOC+ or the OpenBCI Ganglion use filters to process electrical signals from the brain, removing artifacts and noise to isolate meaningful neural activity. This filtered data can then be translated into commands for controlling computers, prosthetics, or even virtual reality environments. For example, researchers are developing BCIs that allow paralyzed individuals to communicate or control wheelchairs using only their thoughts. This application of filtering has the potential to revolutionize assistive technologies and improve the quality of life for people with disabilities.",
+                "name": "Augmented Reality (AR) Filters",
+                "brief_description": "Augmented Reality filters overlay digital effects onto real-world views",
+                "description": "AR filters, popular in apps like Snapchat and Instagram, use the Rank Theorem to map digital effects onto users' faces or environments. The theorem helps in understanding the spatial relationships and rankings of features in the captured images, allowing the AR system to accurately place and animate digital objects. For example, when you use a filter that adds a virtual hat to your head, the Rank Theorem helps in determining the correct position and orientation of the hat relative to your face. This application demonstrates how the Rank Theorem enables the seamless integration of digital content with the real world, creating engaging and interactive experiences.",
                 "images": [
                     {
                         "url": "https://mriquestions.com/uploads/3/4/5/7/34572113/9600204_orig.gif",
@@ -427,67 +171,234 @@
                         "width": 708,
                         "height": 570
                     }
-                ],
-                "RoadmapData": [
+                ]
+            }
+        ],
+        "Linear Combination": [
+            {
+                "name": "Face Recognition Technology",
+                "brief_description": "Face recognition systems identify or verify a person from a digital image or a video frame",
+                "description": "Face recognition technology, used in smartphones, security systems, and social media apps, relies heavily on linear combinations. When a face is scanned, it is broken down into a set of facial landmarks, which are then represented as vectors in a high-dimensional space. These vectors are combined linearly to create a unique 'faceprint' for each individual. The system then uses linear combinations to compare this faceprint with a database of known faces, enabling quick and accurate identification or verification. The wow factor lies in the technology's ability to recognize faces even when they are partially obscured or viewed from different angles, showcasing the power of linear combinations in handling complex, real-world data.",
+                "images": [
                     {
-                        "title": "EEG Signal Processing Learning Roadmap",
-                        "description_1": [
-                            [
-                                "Basic Electrical Engineering",
-                                "10 hours",
-                                "Understanding basic electrical engineering principles to comprehend how EEG signals are generated and measured."
-                            ],
-                            [
-                                "Introduction to Signals and Systems",
-                                "15 hours",
-                                "Fundamentals of signals and systems, including types of signals, signal properties, and basic system analysis."
-                            ],
-                            [
-                                "Basic Mathematics for Signal Processing",
-                                "20 hours",
-                                "Essential mathematical concepts including algebra, calculus, and basic statistics needed for signal processing."
-                            ]
-                        ],
-                        "description_2": [
-                            [
-                                "EEG Signal Acquisition",
-                                "15 hours",
-                                "Understanding how EEG signals are acquired, including electrode placement, signal amplification, and data recording."
-                            ],
-                            [
-                                "Fourier Transform",
-                                "20 hours",
-                                "Converting time-domain signals to frequency-domain representations to analyze different frequency components in EEG signals."
-                            ],
-                            [
-                                "Filtering",
-                                "20 hours",
-                                "Techniques for filtering out noise and unwanted frequencies from EEG signals to enhance signal quality."
-                            ]
-                        ],
-                        "description_3": [
-                            [
-                                "Advanced Signal Processing Techniques",
-                                "30 hours",
-                                "In-depth methods such as wavelet transform, independent component analysis (ICA), and principal component analysis (PCA) for advanced EEG signal analysis."
-                            ],
-                            [
-                                "Artifact Removal in EEG",
-                                "20 hours",
-                                "Techniques for identifying and removing artifacts (e.g., eye blinks, muscle activity) from EEG signals to improve data quality."
-                            ],
-                            [
-                                "Dirac Delta Function",
-                                "15 hours",
-                                "Understanding the Dirac delta function and its applications in signal processing, particularly in the context of EEG data analysis."
-                            ]
-                        ],
-                        "application": "Electroencephalogram (EEG) Signal Processing"
+                        "url": "https://mriquestions.com/uploads/3/4/5/7/34572113/9600204_orig.gif",
+                        "title": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx4ju1Vn2qlWb3xLNM4mbDrG2TIhMR0CfS_AF-suLC6NCg0acuqn3NVg&s",
+                        "context": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "width": 708,
+                        "height": 570
+                    }
+                ]
+            },
+            {
+                "name": "Noise-Cancelling Headphones",
+                "brief_description": "Noise-cancelling headphones reduce unwanted background noise",
+                "description": "Noise-cancelling headphones use linear combinations to create an 'anti-noise' signal that cancels out unwanted background noise. The headphones have microphones that pick up external sounds, which are then converted into digital signals. These signals are represented as vectors, and a linear combination is used to generate an inverted version of the noise. This anti-noise signal is then played through the headphones' speakers, effectively cancelling out the background noise. The result is a significantly improved listening experience, demonstrating the practical application of linear combinations in everyday technology. The cutting-edge research in this field involves developing adaptive noise-cancelling systems that can handle dynamic and complex noise environments, further highlighting the relevance of linear combinations in modern audio technology.",
+                "images": [
+                    {
+                        "url": "https://mriquestions.com/uploads/3/4/5/7/34572113/9600204_orig.gif",
+                        "title": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx4ju1Vn2qlWb3xLNM4mbDrG2TIhMR0CfS_AF-suLC6NCg0acuqn3NVg&s",
+                        "context": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "width": 708,
+                        "height": 570
+                    }
+                ]
+            }
+        ],
+        "Span of a Set of Vectors": [
+            {
+                "name": "Google Street View",
+                "brief_description": "Google Street View provides panoramic views of locations around the world",
+                "description": "Google Street View uses the concept of the span of a set of vectors to stitch together millions of images into a seamless, navigable 3D environment. The images are taken from various angles and positions, and the span of these vectors (representing the directions and positions of the cameras) allows Google to create a comprehensive map of the world. This application showcases the power of vector spaces in creating immersive and interactive experiences, enabling users to virtually explore streets, landmarks, and even the interiors of museums and businesses. The wow factor lies in the sheer scale and precision of the data processing involved, making it possible to travel the world from the comfort of one's home.",
+                "images": [
+                    {
+                        "url": "https://mriquestions.com/uploads/3/4/5/7/34572113/9600204_orig.gif",
+                        "title": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx4ju1Vn2qlWb3xLNM4mbDrG2TIhMR0CfS_AF-suLC6NCg0acuqn3NVg&s",
+                        "context": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "width": 708,
+                        "height": 570
+                    }
+                ]
+            },
+            {
+                "name": "Virtual Reality (VR) Headsets",
+                "brief_description": "VR headsets provide immersive digital experiences",
+                "description": "VR headsets, such as the Oculus Rift or HTC Vive, utilize the span of a set of vectors to create realistic and immersive virtual environments. The headsets track the user's head movements using vectors that represent the orientation and position in 3D space. The span of these vectors allows the system to update the visual display in real-time, ensuring that the virtual world aligns perfectly with the user's movements. This technology is used in gaming, education, training simulations, and even therapy, providing users with a sense of presence and interaction within the virtual world. The wow factor comes from the seamless and responsive nature of the experience, making virtual environments feel almost as real as the physical world.",
+                "images": [
+                    {
+                        "url": "https://mriquestions.com/uploads/3/4/5/7/34572113/9600204_orig.gif",
+                        "title": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx4ju1Vn2qlWb3xLNM4mbDrG2TIhMR0CfS_AF-suLC6NCg0acuqn3NVg&s",
+                        "context": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "width": 708,
+                        "height": 570
+                    }
+                ]
+            }
+        ],
+        "Matrix-Vector Multiplication": [
+            {
+                "name": "Augmented Reality (AR) Filters",
+                "brief_description": "AR filters overlay digital effects onto real-world views",
+                "description": "Matrix-vector multiplication is crucial in augmented reality (AR) filters, such as those found in apps like Snapchat or Instagram. These filters use matrices to transform and project 3D objects onto the 2D camera feed in real-time. When you apply a filter that places a virtual hat on your head or changes your facial features, the app is using matrix-vector multiplication to calculate the precise positioning and orientation of the digital object relative to your face. This involves complex transformations, including rotations, translations, and scaling, all of which are efficiently handled using matrix operations. The wow factor comes from the seamless integration of digital elements into the real world, creating immersive and interactive experiences that are both fun and technologically impressive.",
+                "images": [
+                    {
+                        "url": "https://mriquestions.com/uploads/3/4/5/7/34572113/9600204_orig.gif",
+                        "title": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx4ju1Vn2qlWb3xLNM4mbDrG2TIhMR0CfS_AF-suLC6NCg0acuqn3NVg&s",
+                        "context": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "width": 708,
+                        "height": 570
+                    }
+                ]
+            },
+            {
+                "name": "Computer Graphics and Gaming",
+                "brief_description": "Computer graphics render realistic images and animations",
+                "description": "In the world of computer graphics and gaming, matrix-vector multiplication is a fundamental operation used to render 3D scenes. Games like Fortnite or Minecraft use matrices to perform transformations on 3D models, such as characters and environments, to create realistic movements and interactions. For example, when a character moves or rotates in the game, the game engine uses matrix-vector multiplication to calculate the new position and orientation of the character. This involves transforming the character's coordinates in 3D space, which is essential for creating smooth and believable animations. The significance of this application lies in its ability to create immersive and visually stunning gaming experiences, which are highly engaging for young learners. The wow factor comes from the ability to manipulate and interact with virtual worlds in real-time, making the concept of matrix-vector multiplication both exciting and relevant.",
+                "images": [
+                    {
+                        "url": "https://mriquestions.com/uploads/3/4/5/7/34572113/9600204_orig.gif",
+                        "title": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx4ju1Vn2qlWb3xLNM4mbDrG2TIhMR0CfS_AF-suLC6NCg0acuqn3NVg&s",
+                        "context": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "width": 708,
+                        "height": 570
+                    }
+                ]
+            }
+        ],
+        "Matrix Equation": [
+            {
+                "name": "Face Recognition Technology",
+                "brief_description": "Face recognition systems identify or verify a person from a digital image or a video frame",
+                "description": "Face recognition technology, used in smartphones, security systems, and social media apps, relies heavily on matrix equations. Images are represented as matrices, where each pixel's color value is an element. Matrix operations, such as Singular Value Decomposition (SVD), help in facial feature extraction and comparison. For instance, Apple's Face ID uses matrix-based algorithms to map and recognize facial features, providing a secure and convenient way to unlock devices. The wow factor lies in the system's ability to recognize faces even in varying lighting conditions and angles, showcasing the power of matrix equations in real-world applications.",
+                "images": [
+                    {
+                        "url": "https://mriquestions.com/uploads/3/4/5/7/34572113/9600204_orig.gif",
+                        "title": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx4ju1Vn2qlWb3xLNM4mbDrG2TIhMR0CfS_AF-suLC6NCg0acuqn3NVg&s",
+                        "context": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "width": 708,
+                        "height": 570
+                    }
+                ]
+            },
+            {
+                "name": "Computer Graphics and Animations",
+                "brief_description": "Computer graphics create visual content using software and hardware",
+                "description": "Matrix equations are fundamental in computer graphics and animations, powering the visual effects in movies, video games, and virtual reality experiences. Transformations like rotation, scaling, and translation are represented as matrix operations. For example, in Pixar's animated films, matrix equations help in character rigging and animation, enabling smooth and realistic movements. The cutting-edge use of matrix equations in real-time rendering, as seen in modern video games, allows for immersive and interactive experiences, demonstrating the relevance and excitement of this mathematical concept in the world of digital entertainment.",
+                "images": [
+                    {
+                        "url": "https://mriquestions.com/uploads/3/4/5/7/34572113/9600204_orig.gif",
+                        "title": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx4ju1Vn2qlWb3xLNM4mbDrG2TIhMR0CfS_AF-suLC6NCg0acuqn3NVg&s",
+                        "context": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "width": 708,
+                        "height": 570
+                    }
+                ]
+            }
+        ],
+        "Consistency of Linear Systems": [
+            {
+                "name": "Air Traffic Control Systems",
+                "brief_description": "Air traffic control systems manage and coordinate aircraft movements",
+                "description": "Air traffic control systems rely heavily on the consistency of linear systems to manage and coordinate aircraft movements safely and efficiently. These systems use linear equations to predict and track the paths of multiple aircraft simultaneously. The consistency of these linear systems ensures that the solutions (i.e., the predicted paths) are unique and reliable, which is crucial for avoiding collisions and maintaining safe distances between aircraft. This application showcases the power of linear systems in ensuring the safety and efficiency of modern air travel, handling thousands of flights daily with precision.",
+                "images": [
+                    {
+                        "url": "https://mriquestions.com/uploads/3/4/5/7/34572113/9600204_orig.gif",
+                        "title": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx4ju1Vn2qlWb3xLNM4mbDrG2TIhMR0CfS_AF-suLC6NCg0acuqn3NVg&s",
+                        "context": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "width": 708,
+                        "height": 570
+                    }
+                ]
+            },
+            {
+                "name": "Smart Grid Energy Management",
+                "brief_description": "Smart grid systems optimize energy distribution and consumption",
+                "description": "Smart grid systems use the consistency of linear systems to optimize energy distribution and consumption in real-time. These systems solve complex linear equations to balance supply and demand, predict energy usage patterns, and manage renewable energy sources like solar and wind power. The consistency of these linear systems ensures that the solutions are accurate and reliable, which is essential for maintaining a stable and efficient energy grid. This application highlights the relevance of linear systems in creating a sustainable and resilient energy infrastructure, capable of handling the increasing demand for clean energy.",
+                "images": [
+                    {
+                        "url": "https://mriquestions.com/uploads/3/4/5/7/34572113/9600204_orig.gif",
+                        "title": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx4ju1Vn2qlWb3xLNM4mbDrG2TIhMR0CfS_AF-suLC6NCg0acuqn3NVg&s",
+                        "context": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "width": 708,
+                        "height": 570
+                    }
+                ]
+            }
+        ],
+        "Elementary Row Operations": [
+            {
+                "name": "Google's PageRank Algorithm",
+                "brief_description": "Google's system for ranking web pages in search results",
+                "description": "Elementary row operations are fundamental to the mathematical underpinnings of Google's PageRank algorithm, which determines the importance of web pages. By representing the web as a vast matrix where rows and columns correspond to web pages and their links, Google uses row operations to simplify and solve the system of linear equations that represent the flow of 'PageRank' through the web. This process helps Google deliver the most relevant search results to users, showcasing the power of linear algebra in modern technology. The wow factor lies in the sheer scale and impact of this application, as it influences how billions of people access information daily.",
+                "images": [
+                    {
+                        "url": "https://mriquestions.com/uploads/3/4/5/7/34572113/9600204_orig.gif",
+                        "title": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx4ju1Vn2qlWb3xLNM4mbDrG2TIhMR0CfS_AF-suLC6NCg0acuqn3NVg&s",
+                        "context": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "width": 708,
+                        "height": 570
+                    }
+                ]
+            },
+            {
+                "name": "Computer Vision in Autonomous Vehicles",
+                "brief_description": "Systems that enable self-driving cars to perceive and interpret their environment",
+                "description": "In autonomous vehicles, computer vision systems use elementary row operations to process and interpret data from cameras and sensors. By transforming and simplifying matrices that represent images and sensor data, these systems can identify objects, track their movements, and make real-time decisions. For example, row operations help in reducing the dimensionality of data, making it easier to recognize patterns and features, such as lane markings, traffic signs, and other vehicles. This application highlights the relevance of linear algebra in cutting-edge technology, with the potential to revolutionize transportation and improve road safety.",
+                "images": [
+                    {
+                        "url": "https://mriquestions.com/uploads/3/4/5/7/34572113/9600204_orig.gif",
+                        "title": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx4ju1Vn2qlWb3xLNM4mbDrG2TIhMR0CfS_AF-suLC6NCg0acuqn3NVg&s",
+                        "context": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "width": 708,
+                        "height": 570
+                    }
+                ]
+            }
+        ],
+        "Back Substitution": [
+            {
+                "name": "Real-Time Physics Engines in Video Games",
+                "brief_description": "Physics engines simulate realistic movements and interactions in video games",
+                "description": "Back substitution is crucial in real-time physics engines used in modern video games. These engines solve systems of linear equations to simulate the behavior of objects under various forces, such as gravity, friction, and collisions. By using back substitution, the engine can quickly and efficiently compute the new positions and velocities of objects in the game world, ensuring smooth and realistic gameplay. For example, in a game like 'Angry Birds,' back substitution helps calculate the trajectory of birds as they fly through the air and collide with structures. This application showcases the power of back substitution in creating immersive and engaging gaming experiences, making it a fascinating real-world use of this mathematical concept.",
+                "images": [
+                    {
+                        "url": "https://mriquestions.com/uploads/3/4/5/7/34572113/9600204_orig.gif",
+                        "title": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx4ju1Vn2qlWb3xLNM4mbDrG2TIhMR0CfS_AF-suLC6NCg0acuqn3NVg&s",
+                        "context": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "width": 708,
+                        "height": 570
+                    }
+                ]
+            },
+            {
+                "name": "Structural Engineering and Building Design",
+                "brief_description": "Structural engineers design safe and stable buildings using mathematical models",
+                "description": "In structural engineering, back substitution is employed to analyze and design buildings, bridges, and other structures. Engineers use linear equations to model the forces and stresses acting on a structure, and back substitution helps solve these equations to determine the stability and safety of the design. For instance, when designing a skyscraper, engineers must ensure that the building can withstand various loads, such as wind, earthquakes, and the weight of the structure itself. By using back substitution, they can quickly and accurately compute the necessary support and reinforcement, ensuring the building's safety. This application highlights the importance of back substitution in creating safe and innovative architectural designs, making it an exciting real-world use of this concept.",
+                "images": [
+                    {
+                        "url": "https://mriquestions.com/uploads/3/4/5/7/34572113/9600204_orig.gif",
+                        "title": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx4ju1Vn2qlWb3xLNM4mbDrG2TIhMR0CfS_AF-suLC6NCg0acuqn3NVg&s",
+                        "context": "Fourier Transform (FT) - Questions and Answers in MRI",
+                        "width": 708,
+                        "height": 570
                     }
                 ]
             }
         ]
     },
     "error": null,
-    "last_roadmap_timestamp": 1748167041.3786545
+    "last_applications_timestamp": 1748168587.7133389
 }
