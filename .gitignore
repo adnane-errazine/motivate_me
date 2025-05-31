@@ -3,3 +3,11 @@
 
 # Jetbrains
 .idea/
+
+
+.env
+.venv
+tests/
+.vscode/
+__pycache__/
+*.py[cod]
