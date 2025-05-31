@@ -3,6 +3,7 @@ from http import HTTPStatus
 from typing import Any, Sequence, Optional
 import json
 
+import uvicorn
 from fastapi import APIRouter, HTTPException
 from fastapi import FastAPI, Request
 from fastapi.encoders import jsonable_encoder
@@ -72,12 +73,12 @@ async def validation_exception_handler(
 @router.post("/run_workflow/")
 async def run_workflow(request: WorkflowRequest):
     try:
-        
+
         # detele the tmp/workflow_state.json file if it exists
         workflow_state_path = os.path.join("tmp", "workflow_state.json")
         if os.path.exists(workflow_state_path):
             os.remove(workflow_state_path)
-        
+
         document_path = os.path.join("tmp", request.file_name)
 
         if not os.path.exists(document_path):
@@ -131,3 +132,6 @@ async def get_workflow_state():
 
 
 app.include_router(router)
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
