@@ -1,5 +1,5 @@
-# motivate_me
-Europe: Paris Hackathon
+# motivaty
+**{Tech: Europe} AI Hackathon in Paris**
 
 ---
 
