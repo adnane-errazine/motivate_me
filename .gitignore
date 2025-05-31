@@ -1,18 +1,5 @@
-.env
-.venv
-tests/
-
-.vscode/
-
-# Ignore Python cache files
-__pycache__/
-*.py[cod]
-uv.lock
-
 # Mac
 .DS_Store
 
 # Jetbrains
 .idea/
-
-tmp/workflow_state.json

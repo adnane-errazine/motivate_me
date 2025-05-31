@@ -1,0 +1,12 @@
+.env
+.venv
+tests/
+
+.vscode/
+
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+uv.lock
+
+tmp/workflow_state.json
