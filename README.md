@@ -15,11 +15,13 @@ This project uses **`uv`**.
     ```
 
 2.  **Install `uv`**:
+    ```bash
     * `curl -LsSf https://astral.sh/uv/install.sh | sh` (macOS/Linux)
     * `irm https://astral.sh/uv/install.ps1 | iex` (Windows PowerShell)
     * pip install uv
+    ```
 
-3.  **Environment Setup**:
+4.  **Environment Setup**:
     ```bash
     # Create an `.env` file in the backend, check .env-example
     touch .env
