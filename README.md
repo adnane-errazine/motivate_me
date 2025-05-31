@@ -20,10 +20,12 @@ This project uses **`uv`**.
     * pip install uv
 
 3.  **Environment Setup**:
+    ```bash
     # Create an `.env` file in the backend, check .env-example
     touch .env
+    ```
 
-4.  **Install dependencies & Run**:
+5.  **Install dependencies & Run**:
     ```bash
     uv sync
     uv run app.py
